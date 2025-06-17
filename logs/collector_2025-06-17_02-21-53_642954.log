@@ -1,0 +1,108 @@
+2025-06-17 02:21:53.647 | INFO     | __main__:main:73 - Starting collection from wikipedia
+2025-06-17 02:21:53.647 | INFO     | __main__:main:74 - Output directory: data/raw
+2025-06-17 02:21:53.647 | INFO     | __main__:main:75 - Batch size: 1000, Limit: 1
+2025-06-17 02:21:53.647 | INFO     | __main__:main:76 - Minimum quality score: 0.1
+2025-06-17 02:21:53.647 | INFO     | __main__:main:77 - Debug mode: False
+2025-06-17 02:21:53.648 | INFO     | storage.parquet_manager:__init__:45 - Initialized ParquetManager at data/raw
+2025-06-17 02:21:53.928 | INFO     | processors.quality_scorer:__init__:43 - spaCy model loaded successfully
+2025-06-17 02:21:53.932 | INFO     | collectors.base_collector:__aenter__:69 - Started WikipediaCollector
+2025-06-17 02:21:53.942 | INFO     | collectors.base_collector:load_checkpoint:195 - Loaded checkpoint from 2025-06-17T02:20:27.004143
+2025-06-17 02:21:53.943 | INFO     | collectors.wikipedia_collector:extract:74 - Resuming from checkpoint with 6856 processed pages
+2025-06-17 02:21:53.943 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Video_games_by_year
+2025-06-17 02:21:54.269 | INFO     | collectors.wikipedia_collector:extract:83 - Found 0 total pages in Category:Video_games_by_year
+2025-06-17 02:21:54.269 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 0 new pages from Category:Video_games_by_year
+2025-06-17 02:21:54.269 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Windows_games
+2025-06-17 02:22:07.609 | INFO     | collectors.wikipedia_collector:extract:83 - Found 5126 total pages in Category:Windows_games
+2025-06-17 02:22:07.612 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 5126 new pages from Category:Windows_games
+2025-06-17 02:22:07.879 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Addams Family: Mansion Mayhem - content too short
+2025-06-17 02:22:07.925 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1503: Treasures, Monsters and Pirates - content too short
+2025-06-17 02:22:07.933 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Alex Kidd in Miracle World DX - content too short
+2025-06-17 02:22:07.949 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1602: By Royal Command - content too short
+2025-06-17 02:22:07.949 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Babe: A Little Pig Goes a Long Way - content too short
+2025-06-17 02:22:07.949 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1701: The Sunken Dragon - content too short
+2025-06-17 02:22:07.950 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping After Dark Games - content too short
+2025-06-17 02:22:07.950 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1404: Venice - content too short
+2025-06-17 02:22:07.973 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1602: New Islands, New Adventures - content too short
+2025-06-17 02:22:08.001 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anteworld - content too short
+2025-06-17 02:22:08.257 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Castlevania Anniversary Collection - content too short
+2025-06-17 02:22:08.258 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Barbie as the Princess and the Pauper (video game) - content too short
+2025-06-17 02:22:08.259 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Bloons Monkey City - content too short
+2025-06-17 02:22:08.265 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Big Money! - content too short
+2025-06-17 02:22:08.269 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Castlevania Advance Collection - content too short
+2025-06-17 02:22:08.270 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blue Sphere - content too short
+2025-06-17 02:22:08.272 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blade Runner: Enhanced Edition - content too short
+2025-06-17 02:22:08.272 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blood: Fresh Supply - content too short
+2025-06-17 02:22:08.272 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Baten Kaitos I & II HD Remaster - content too short
+2025-06-17 02:22:08.286 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Cabela's GrandSlam Hunting: North American 29 - content too short
+2025-06-17 02:22:08.544 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Clock Tower Rewind - content too short
+2025-06-17 02:22:08.546 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Devil May Cry HD Collection - content too short
+2025-06-17 02:22:08.548 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dead or Alive 5 Last Round: Core Fighters - content too short
+2025-06-17 02:22:08.550 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Collection of SaGa: Final Fantasy Legend - content too short
+2025-06-17 02:22:08.551 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Creatures of Aether - content too short
+2025-06-17 02:22:08.554 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Code of Princess EX - content too short
+2025-06-17 02:22:08.556 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dead or Alive 6: Core Fighters - content too short
+2025-06-17 02:22:08.557 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dark Horizons Lore: Invasion - content too short
+2025-06-17 02:22:08.562 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Clock Tower: Rewind - content too short
+2025-06-17 02:22:08.768 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Descent: FreeSpace – Silent Threat - content too short
+2025-06-17 02:22:09.025 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dokapon Kingdom: Connect - content too short
+2025-06-17 02:22:09.028 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Digimon Jintrix - content too short
+2025-06-17 02:22:09.028 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping DmC: Devil May Cry Definitive Edition - content too short
+2025-06-17 02:22:09.035 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Disneyland Adventures - content too short
+2025-06-17 02:22:09.037 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Digimon Super Rumble - content too short
+2025-06-17 02:22:09.037 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dreams of Another - content too short
+2025-06-17 02:22:09.042 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dynomite! (video game) - content too short
+2025-06-17 02:22:09.043 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dweller's Empty Path - content too short
+2025-06-17 02:22:09.044 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dungeons of Aether - content too short
+2025-06-17 02:22:09.049 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Dragon Ball: The Breakers - content too short
+2025-06-17 02:22:09.310 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Final Fantasy XI: Treasures of Aht Urghan - content too short
+2025-06-17 02:22:09.314 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Final Fantasy XI: Rise of the Zilart - content too short
+2025-06-17 02:22:09.315 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Fairy-Max - content too short
+2025-06-17 02:22:09.316 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Final Fantasy XI: Chains of Promathia - content too short
+2025-06-17 02:22:09.316 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Final Fantasy XI: Seekers of Adoulin - content too short
+2025-06-17 02:22:09.316 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Final Fantasy XI: Wings of the Goddess - content too short
+2025-06-17 02:22:09.318 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Enter the Gungeon 2 - content too short
+2025-06-17 02:22:09.319 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Epic Mickey: Rebrushed - content too short
+2025-06-17 02:22:09.319 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Flatspace - content too short
+2025-06-17 02:22:09.336 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Fable: Manga Build Roguelike - content too short
+2025-06-17 02:22:09.346 | INFO     | collectors.base_collector:save_checkpoint:186 - Saved checkpoint to checkpoints/wikipedia_collector.json
+2025-06-17 02:22:09.602 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Hidden & Dangerous Deluxe - content too short
+2025-06-17 02:22:09.608 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Freaks! - content too short
+2025-06-17 02:22:09.611 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Fly! II - content too short
+2025-06-17 02:22:09.612 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping I Wanna Be the Boshy - content too short
+2025-06-17 02:22:09.613 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack (2014 video game) - content too short
+2025-06-17 02:22:09.613 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Heavenstrike Rivals - content too short
+2025-06-17 02:22:09.617 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Hunting Unlimited - content too short
+2025-06-17 02:22:09.619 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Human: Fall Flat 2 - content too short
+2025-06-17 02:22:09.631 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Front Mission 1st: Remake - content too short
+2025-06-17 02:22:09.631 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping HashtagBlud - content too short
+2025-06-17 02:22:09.890 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 6 - content too short
+2025-06-17 02:22:09.893 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 9 - content too short
+2025-06-17 02:22:09.895 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 5 - content too short
+2025-06-17 02:22:09.896 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 8 - content too short
+2025-06-17 02:22:09.897 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Starter - content too short
+2025-06-17 02:22:09.897 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 3 - content too short
+2025-06-17 02:22:09.903 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 10 - content too short
+2025-06-17 02:22:09.905 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 7 - content too short
+2025-06-17 02:22:09.906 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 2 - content too short
+2025-06-17 02:22:09.914 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Jackbox Party Pack 4 - content too short
+2025-06-17 02:22:10.172 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Lego Creator: Harry Potter - content too short
+2025-06-17 02:22:10.173 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Jay and Silent Bob: Chronic Blunt Punch - content too short
+2025-06-17 02:22:10.176 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Legions: Overdrive - content too short
+2025-06-17 02:22:10.178 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Knuckles the Echidna in Sonic the Hedgehog 2 - content too short
+2025-06-17 02:22:10.179 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Last of Us Part II Remastered - content too short
+2025-06-17 02:22:10.182 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Kudos: Rock Legend - content too short
+2025-06-17 02:22:10.183 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Killing Time: Resurrected - content too short
+2025-06-17 02:22:10.184 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Linley's Dungeon Crawl - content too short
+2025-06-17 02:22:10.238 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Lovers of Aether - content too short
+2025-06-17 02:22:10.383 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Live A Live HD-2D Remake - content too short
+2025-06-17 02:22:10.643 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Moomins and the Hobgoblin's Hat - content too short
+2025-06-17 02:22:10.644 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Mega Man Legacy Collection 2 - content too short
+2025-06-17 02:22:10.660 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Mega Man Battle Network Legacy Collection - content too short
+2025-06-17 02:22:10.660 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Mega Man X Legacy Collection - content too short
+2025-06-17 02:22:10.661 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Mega Man X Legacy Collection 2 - content too short
+2025-06-17 02:22:10.661 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Mega Man Zero/ZX Legacy Collection - content too short
+2025-06-17 02:22:10.661 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Making of Karateka - content too short
+2025-06-17 02:22:11.121 | DEBUG    | __main__:collect_data:156 - Accepted: My Hero One's Justice 2 (score: 0.373)
+2025-06-17 02:22:11.149 | ERROR    | storage.parquet_manager:save:195 - Error saving parquet file: __cinit__() got an unexpected keyword argument 'metadata'
+2025-06-17 02:22:11.150 | ERROR    | __main__:save_batch:232 - Error saving batch: __cinit__() got an unexpected keyword argument 'metadata'
+2025-06-17 02:22:11.152 | INFO     | collectors.base_collector:__aexit__:76 - Stopped WikipediaCollector. Collected: 26, Errors: 0

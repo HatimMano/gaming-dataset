@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gaming Dataset Plan - LLM Training</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: #0a0e27;
+        color: #e0e0e0;
+        line-height: 1.6;
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        background: #0d1117;
+        padding: 20px;
+        overflow-y: auto;
+        border-right: 1px solid #30363d;
+        z-index: 1000;
+      }
+
+      nav h3 {
+        color: #58a6ff;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+      }
+
+      nav ul {
+        list-style: none;
+      }
+
+      nav ul li {
+        margin-bottom: 10px;
+      }
+
+      nav ul li a {
+        color: #c9d1d9;
+        text-decoration: none;
+        display: block;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+
+      nav ul li a:hover {
+        background: #161b22;
+        color: #58a6ff;
+        transform: translateX(5px);
+      }
+
+      /* Main Content */
+      main {
+        margin-left: 250px;
+        padding: 40px;
+        max-width: 1400px;
+      }
+
+      /* Header */
+      .header {
+        text-align: center;
+        padding: 60px 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 16px;
+        margin-bottom: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 0%,
+          transparent 70%
+        );
+        animation: pulse 15s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(-30%, -30%) scale(1.2);
+        }
+      }
+
+      .header h1 {
+        font-size: 3em;
+        margin-bottom: 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .header p {
+        font-size: 1.2em;
+        opacity: 0.9;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Sections */
+      section {
+        margin-bottom: 60px;
+        padding: 30px;
+        background: #0d1117;
+        border-radius: 12px;
+        border: 1px solid #30363d;
+      }
+
+      section h2 {
+        color: #58a6ff;
+        font-size: 2em;
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      section h3 {
+        color: #f0883e;
+        font-size: 1.5em;
+        margin: 30px 0 20px 0;
+      }
+
+      /* Stats Cards */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .stat-card {
+        background: #161b22;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #30363d;
+        text-align: center;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #58a6ff, #f0883e);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s;
+      }
+
+      .stat-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(88, 166, 255, 0.2);
+      }
+
+      .stat-card .number {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #58a6ff;
+        margin-bottom: 10px;
+      }
+
+      .stat-card .label {
+        color: #8b949e;
+        font-size: 0.9em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      /* Tables */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        background: #161b22;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 1px solid #30363d;
+      }
+
+      th {
+        background: #0d1117;
+        color: #58a6ff;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9em;
+        letter-spacing: 1px;
+      }
+
+      tr:hover {
+        background: #1c2128;
+      }
+
+      /* Code Blocks */
+      .code-block {
+        background: #161b22;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        overflow-x: auto;
+        border: 1px solid #30363d;
+      }
+
+      pre {
+        margin: 0;
+      }
+
+      code {
+        font-family: "Consolas", "Monaco", "Courier New", monospace;
+        font-size: 14px;
+      }
+
+      /* Tree View */
+      .tree {
+        font-family: monospace;
+        background: #161b22;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+        border: 1px solid #30363d;
+      }
+
+      .tree ul {
+        list-style: none;
+        padding-left: 20px;
+      }
+
+      .tree > ul {
+        padding-left: 0;
+      }
+
+      .tree li {
+        position: relative;
+        padding: 5px 0;
+      }
+
+      .tree li::before {
+        content: "├── ";
+        color: #8b949e;
+      }
+
+      .tree li:last-child::before {
+        content: "└── ";
+      }
+
+      /* Progress Bars */
+      .progress-container {
+        background: #161b22;
+        border-radius: 8px;
+        padding: 10px;
+        margin: 20px 0;
+      }
+
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 20px;
+        background: #0d1117;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #58a6ff, #f0883e);
+        transition: width 1s ease-out;
+        border-radius: 10px;
+      }
+
+      /* Charts Container */
+      .chart-container {
+        position: relative;
+        height: 400px;
+        margin: 30px 0;
+        background: #161b22;
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid #30363d;
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding: 20px 0;
+        margin: 30px 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: #30363d;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 20px;
+        width: calc(50% - 40px);
+        background: #161b22;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 1px solid #30363d;
+      }
+
+      .timeline-item:nth-child(odd) {
+        left: 0;
+      }
+
+      .timeline-item:nth-child(even) {
+        left: calc(50% + 40px);
+      }
+
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #58a6ff;
+        border-radius: 50%;
+        top: 30px;
+      }
+
+      .timeline-item:nth-child(odd)::before {
+        right: -50px;
+      }
+
+      .timeline-item:nth-child(even)::before {
+        left: -50px;
+      }
+
+      /* Badges */
+      .badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85em;
+        font-weight: 500;
+        margin: 0 5px;
+      }
+
+      .badge-primary {
+        background: #58a6ff;
+        color: #0d1117;
+      }
+
+      .badge-success {
+        background: #3fb950;
+        color: #0d1117;
+      }
+
+      .badge-warning {
+        background: #f0883e;
+        color: #0d1117;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        nav {
+          transform: translateX(-100%);
+          transition: transform 0.3s;
+        }
+
+        nav.active {
+          transform: translateX(0);
+        }
+
+        main {
+          margin-left: 0;
+          padding: 20px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          left: 0 !important;
+        }
+
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item::before {
+          left: -30px !important;
+        }
+      }
+
+      /* Menu Toggle Button */
+      .menu-toggle {
+        display: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: #161b22;
+        border: 1px solid #30363d;
+        color: #58a6ff;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      @media (max-width: 768px) {
+        .menu-toggle {
+          display: block;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav id="sidebar">
+      <h3>📊 Gaming Dataset Plan</h3>
+      <ul>
+        <li><a href="#overview">🎯 Overview</a></li>
+        <li><a href="#metrics">📈 Key Metrics</a></li>
+        <li><a href="#architecture">🏗️ Architecture</a></li>
+        <li><a href="#phase1">🚀 Phase 1 Details</a></li>
+        <li><a href="#sources">📚 Data Sources</a></li>
+        <li><a href="#quality">✅ Quality System</a></li>
+        <li><a href="#timeline">📅 Timeline</a></li>
+        <li><a href="#budget">💰 Budget</a></li>
+        <li><a href="#implementation">💻 Implementation</a></li>
+        <li><a href="#risks">⚠️ Risks</a></li>
+        <li><a href="#next-steps">🎬 Next Steps</a></li>
+      </ul>
+    </nav>
+
+    <!-- Menu Toggle -->
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Header -->
+      <div class="header">
+        <h1>🎮 Gaming Dataset for LLM Training</h1>
+        <p>
+          Building a comprehensive 20GB+ gaming dataset for next-gen AI
+          understanding
+        </p>
+      </div>
+
+      <!-- Overview Section -->
+      <section id="overview">
+        <h2>🎯 Project Overview</h2>
+        <p>
+          Creating a comprehensive gaming dataset to train LLMs with deep
+          understanding of gaming culture, mechanics, and community.
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">20-30GB</div>
+            <div class="label">Target Dataset Size</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">10,000+</div>
+            <div class="label">Games Covered</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">10M+</div>
+            <div class="label">Documents</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">15+</div>
+            <div class="label">Data Sources</div>
+          </div>
+        </div>
+
+        <h3>Core Capabilities</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Capability</th>
+              <th>Description</th>
+              <th>Coverage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge badge-primary">Playing</span></td>
+              <td>Understand game mechanics, provide strategic advice</td>
+              <td>95%</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-success">Commenting</span></td>
+              <td>Analyze gameplay, create tutorials, live commentary</td>
+              <td>90%</td>
+            </tr>
+            <tr>
+              <td><span class="badge badge-warning">Discussing</span></td>
+              <td>Natural conversations with gaming vocabulary</td>
+              <td>85%</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Key Metrics Section -->
+      <section id="metrics">
+        <h2>📈 Key Metrics & Targets</h2>
+        <!--
+            <div class="chart-container">
+                <canvas id="distributionChart"></canvas>
+            </div>-->
+
+        <h3>Quality Targets</h3>
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Vocabulary Coverage</span>
+            <span>90%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 90%"></div>
+          </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Quality Score Average</span>
+            <span>85%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 85%"></div>
+          </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Deduplication Rate</span>
+            <span>97%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 97%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture Section -->
+      <section id="architecture">
+        <h2>🏗️ Technical Architecture</h2>
+
+        <h3>Technology Stack</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Technology</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Language</td>
+              <td><code>Python 3.10+</code></td>
+              <td>Primary development language</td>
+            </tr>
+            <tr>
+              <td>Orchestration</td>
+              <td><code>Apache Airflow</code></td>
+              <td>Pipeline automation</td>
+            </tr>
+            <tr>
+              <td>Storage</td>
+              <td><code>MinIO + Parquet</code></td>
+              <td>Scalable data storage</td>
+            </tr>
+            <tr>
+              <td>Processing</td>
+              <td><code>Dask/Ray</code></td>
+              <td>Distributed computing</td>
+            </tr>
+            <tr>
+              <td>Quality</td>
+              <td><code>Great Expectations</code></td>
+              <td>Data validation</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Project Structure</h3>
+        <div class="tree">
+          <ul>
+            <li>
+              gaming-dataset/
+              <ul>
+                <li>
+                  collectors/
+                  <ul>
+                    <li>base_collector.py</li>
+                    <li>wikipedia_collector.py</li>
+                    <li>steam_collector.py</li>
+                    <li>reddit_collector.py</li>
+                  </ul>
+                </li>
+                <li>
+                  processors/
+                  <ul>
+                    <li>text_cleaner.py</li>
+                    <li>deduplicator.py</li>
+                    <li>quality_scorer.py</li>
+                    <li>entity_extractor.py</li>
+                  </ul>
+                </li>
+                <li>
+                  storage/
+                  <ul>
+                    <li>parquet_manager.py</li>
+                    <li>s3_client.py</li>
+                    <li>metadata_store.py</li>
+                  </ul>
+                </li>
+                <li>
+                  config/
+                  <ul>
+                    <li>sources.yaml</li>
+                    <li>schemas.yaml</li>
+                    <li>quality_rules.yaml</li>
+                  </ul>
+                </li>
+                <li>tests/</li>
+                <li>notebooks/</li>
+                <li>requirements.txt</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <h3>Data Schema</h3>
+        <div class="code-block">
+          <pre><code class="language-json">{
+  "document_id": "sha256_hash",
+  "source": {
+    "platform": "wikipedia|steam|youtube|reddit",
+    "url": "original_url",
+    "crawl_timestamp": "ISO_8601"
+  },
+  "content": {
+    "title": "string",
+    "text": "main_content",
+    "text_clean": "processed_content",
+    "word_count": "integer"
+  },
+  "metadata": {
+    "game": {
+      "title": "normalized_name",
+      "game_id": "steam_id|igdb_id",
+      "genres": ["Action", "RPG"],
+      "platforms": ["PC", "PS5"]
+    },
+    "classification": {
+      "content_type": "guide|review|wiki",
+      "tags": ["multiplayer", "strategy"]
+    }
+  },
+  "quality": {
+    "score": 0.85,
+    "gaming_density": 0.92,
+    "uniqueness": 0.88
+  }
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Phase 1 Details -->
+      <section id="phase1">
+        <h2>🚀 Phase 1: Foundation (Weeks 1-2)</h2>
+
+        <h3>Week 1: Infrastructure & Wikipedia</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Tasks</th>
+              <th>Deliverables</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Day 1-2</td>
+              <td>Environment setup, project structure</td>
+              <td>Git repo, Python env, basic structure</td>
+            </tr>
+            <tr>
+              <td>Day 3-5</td>
+              <td>Wikipedia Collector implementation</td>
+              <td>10,000+ articles extracted</td>
+            </tr>
+            <tr>
+              <td>Day 6-7</td>
+              <td>Testing & validation</td>
+              <td>Quality reports, test suite</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Base Collector Implementation</h3>
+        <div class="code-block">
+          <pre><code class="language-python">from abc import ABC, abstractmethod
+import aiohttp
+import asyncio
+from typing import List, Dict
+
+class BaseCollector(ABC):
+    def __init__(self, config: Dict):
+        self.config = config
+        self.session = None
+        self.rate_limiter = RateLimiter(
+            calls=config.get('rate_limit', 100),
+            period=60
+        )
+        
+    async def __aenter__(self):
+        self.session = aiohttp.ClientSession()
+        return self
+        
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.session.close()
+        
+    @abstractmethod
+    async def extract(self) -> List[Dict]:
+        """Extract data from source"""
+        pass
+        
+    @abstractmethod
+    def parse(self, raw_data: Any) -> Dict:
+        """Parse raw data into standard format"""
+        pass
+        
+    def validate(self, data: Dict) -> bool:
+        """Validate data quality"""
+        required_fields = ['content', 'metadata', 'source']
+        return all(field in data for field in required_fields)
+        
+    async def process_batch(self, items: List) -> List[Dict]:
+        """Process items in parallel with rate limiting"""
+        results = []
+        for batch in self.chunk_list(items, 10):
+            tasks = [self.process_item(item) for item in batch]
+            batch_results = await asyncio.gather(*tasks)
+            results.extend(batch_results)
+            await self.rate_limiter.acquire()
+        return results</code></pre>
+        </div>
+
+        <h3>Wikipedia Collector</h3>
+        <div class="code-block">
+          <pre><code class="language-python">class WikipediaCollector(BaseCollector):
+    def __init__(self):
+        super().__init__({
+            'rate_limit': 200,
+            'base_url': 'https://en.wikipedia.org/w/api.php'
+        })
+        self.categories = [
+            'Category:Video_games_by_year',
+            'Category:Windows_games',
+            'Category:PlayStation_5_games',
+            'Category:Steam_games',
+            'Category:Esports_games'
+        ]
+        
+    async def extract_category(self, category: str) -> List[str]:
+        """Extract all pages from a category"""
+        params = {
+            'action': 'query',
+            'list': 'categorymembers',
+            'cmtitle': category,
+            'cmlimit': 500,
+            'format': 'json'
+        }
+        
+        async with self.session.get(
+            self.config['base_url'], 
+            params=params
+        ) as response:
+            data = await response.json()
+            return [
+                page['pageid'] 
+                for page in data['query']['categorymembers']
+            ]
+            
+    async def extract_page_content(self, page_id: str) -> Dict:
+        """Get full page content with metadata"""
+        params = {
+            'action': 'query',
+            'prop': 'revisions|categories|info',
+            'pageids': page_id,
+            'rvprop': 'content',
+            'format': 'json'
+        }
+        
+        async with self.session.get(
+            self.config['base_url'],
+            params=params
+        ) as response:
+            data = await response.json()
+            page = data['query']['pages'][str(page_id)]
+            
+            return self.parse({
+                'title': page['title'],
+                'content': page['revisions'][0]['*'],
+                'categories': [
+                    cat['title'] 
+                    for cat in page.get('categories', [])
+                ],
+                'url': f"https://en.wikipedia.org/?curid={page_id}"
+            })</code></pre>
+        </div>
+
+        <h3>Phase 1 Expected Results</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">500MB</div>
+            <div class="label">Total Volume</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">35,000</div>
+            <div class="label">Documents</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">8,000+</div>
+            <div class="label">Unique Games</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">0.82</div>
+            <div class="label">Avg Quality Score</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Data Sources Section -->
+      <section id="sources">
+        <h2>📚 Data Sources Analysis</h2>
+
+        <!--<div class="chart-container">
+          <canvas id="sourcesChart"></canvas>
+        </div>-->
+
+        <h3>Priority Sources (P0)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Volume</th>
+              <th>Quality</th>
+              <th>Access</th>
+              <th>Priority</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Wikipedia Gaming</td>
+              <td>50,000+ articles</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>MediaWiki API</td>
+              <td><span class="badge badge-primary">P0</span></td>
+            </tr>
+            <tr>
+              <td>Steam Store</td>
+              <td>110,000+ games</td>
+              <td>⭐⭐⭐⭐</td>
+              <td>Public API</td>
+              <td><span class="badge badge-primary">P0</span></td>
+            </tr>
+            <tr>
+              <td>YouTube Transcripts</td>
+              <td>Millions</td>
+              <td>⭐⭐⭐⭐</td>
+              <td>YouTube API v3</td>
+              <td><span class="badge badge-success">P1</span></td>
+            </tr>
+            <tr>
+              <td>Reddit Gaming</td>
+              <td>10M+ posts</td>
+              <td>⭐⭐⭐</td>
+              <td>PRAW API</td>
+              <td><span class="badge badge-success">P1</span></td>
+            </tr>
+            <tr>
+              <td>Gaming Wikis</td>
+              <td>100,000+ pages/wiki</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td>Fandom API</td>
+              <td><span class="badge badge-success">P1</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Quality System -->
+      <section id="quality">
+        <h2>✅ Quality Assurance System</h2>
+
+        <h3>Quality Scoring Formula</h3>
+        <!--<div class="chart-container">
+          <canvas id="qualityChart"></canvas>
+        </div>-->
+
+        <h3>Validation Pipeline</h3>
+        <div class="code-block">
+          <pre><code class="language-python">class QualityScorer:
+    def __init__(self):
+        self.gaming_terms = self.load_gaming_dictionary()
+        self.weights = {
+            'length': 0.15,
+            'gaming_density': 0.35,
+            'structure': 0.20,
+            'uniqueness': 0.20,
+            'freshness': 0.10
+        }
+        
+    def score_document(self, doc: Dict) -> float:
+        scores = {
+            'length': self._score_length(doc),
+            'gaming_density': self._score_gaming_density(doc),
+            'structure': self._score_structure(doc),
+            'uniqueness': self._score_uniqueness(doc),
+            'freshness': self._score_freshness(doc)
+        }
+        
+        final_score = sum(
+            scores[k] * self.weights[k] 
+            for k in scores
+        )
+        return round(final_score, 3)
+    
+    def _score_gaming_density(self, doc: Dict) -> float:
+        text = doc['content']['text_clean'].lower()
+        words = text.split()
+        gaming_words = sum(
+            1 for word in words 
+            if word in self.gaming_terms
+        )
+        return min(gaming_words / len(words) * 10, 1.0)</code></pre>
+        </div>
+
+        <h3>Validation Strategy</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Score Range</th>
+              <th>Action</th>
+              <th>Expected %</th>
+              <th>Review Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0.8 - 1.0</td>
+              <td><span class="badge badge-success">Auto Accept</span></td>
+              <td>75%</td>
+              <td>Random sampling only</td>
+            </tr>
+            <tr>
+              <td>0.5 - 0.8</td>
+              <td><span class="badge badge-warning">Manual Review</span></td>
+              <td>20%</td>
+              <td>Human validation</td>
+            </tr>
+            <tr>
+              <td>0.0 - 0.5</td>
+              <td><span class="badge badge-primary">Auto Reject</span></td>
+              <td>5%</td>
+              <td>Spot checks</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Gaming Vocabulary Coverage</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">5,000+</div>
+            <div class="label">Core Terms</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">15,000+</div>
+            <div class="label">Extended Terms</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">1,000+</div>
+            <div class="label">Game Titles</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">500+</div>
+            <div class="label">Studio Names</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Timeline Section -->
+      <section id="timeline">
+        <h2>📅 Project Timeline</h2>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <h4>Weeks 1-2: Foundation</h4>
+            <p>Setup infrastructure, implement Wikipedia & Steam collectors</p>
+            <p><strong>Deliverable:</strong> 500MB dataset</p>
+          </div>
+          <div class="timeline-item">
+            <h4>Weeks 3-4: Expansion</h4>
+            <p>Gaming wikis, Reddit integration, YouTube transcripts</p>
+            <p><strong>Deliverable:</strong> 5GB dataset</p>
+          </div>
+          <div class="timeline-item">
+            <h4>Weeks 5-6: Enrichment</h4>
+            <p>NLP pipeline, entity extraction, quality scoring v2</p>
+            <p><strong>Deliverable:</strong> 15GB dataset</p>
+          </div>
+          <div class="timeline-item">
+            <h4>Weeks 7-8: Optimization</h4>
+            <p>Deduplication, final QA, documentation</p>
+            <p><strong>Deliverable:</strong> 25GB+ final dataset</p>
+          </div>
+        </div>
+
+        <h3>Gantt Chart</h3>
+        <!--<div class="chart-container">
+          <canvas id="ganttChart"></canvas>
+        </div>-->
+      </section>
+
+      <!-- Budget Section -->
+      <section id="budget">
+        <h2>💰 Budget Breakdown</h2>
+
+        <h3>Infrastructure Costs (Monthly)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Service</th>
+              <th>Specifications</th>
+              <th>Cost/Month</th>
+              <th>Total (2 months)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Compute</td>
+              <td>4× c5.2xlarge EC2</td>
+              <td>$600</td>
+              <td>$1,200</td>
+            </tr>
+            <tr>
+              <td>Storage</td>
+              <td>50TB S3 Standard</td>
+              <td>$1,150</td>
+              <td>$2,300</td>
+            </tr>
+            <tr>
+              <td>Database</td>
+              <td>RDS PostgreSQL (db.t3.large)</td>
+              <td>$200</td>
+              <td>$400</td>
+            </tr>
+            <tr>
+              <td>APIs</td>
+              <td>YouTube, Reddit, etc.</td>
+              <td>$500</td>
+              <td>$1,000</td>
+            </tr>
+            <tr>
+              <td><strong>Total</strong></td>
+              <td></td>
+              <td><strong>$2,450</strong></td>
+              <td><strong>$4,900</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Team Resources</h3>
+        <!--<div class="chart-container">
+          <canvas id="resourceChart"></canvas>
+        </div>-->
+
+        <h3>Cost vs. Value Analysis</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">$68K</div>
+            <div class="label">Total Investment</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">$500K-1M</div>
+            <div class="label">Market Value</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">7-15x</div>
+            <div class="label">ROI Multiple</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Implementation Details -->
+      <!--<section id="implementation">
+        <h2>💻 Implementation Details</h2>
+
+        <h3>Quick Start Commands</h3>
+        <div class="code-block">
+          <pre><code class="language-bash"># Clone and setup
+git clone https://github.com/yourorg/gaming-dataset.git
+cd gaming-dataset
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run first collector
+python collectors/wikipedia_collector.py \
+    --category "Category:Video_games_by_year" \
+    --limit 1000 \
+    --output data/wikipedia_batch_001.parquet</code></pre>
+        </div>
+
+        <h3>Requirements.txt</h3>
+        <div class="code-block">
+          <pre><code class="language-text"># Core
+pandas==2.0.3
+pyarrow==12.0.1
+numpy==1.24.3
+
+# Async & Networking
+aiohttp==3.8.5
+asyncio==3.4.3
+requests==2.31.0
+
+# NLP & Processing
+spacy==3.6.0
+beautifulsoup4==4.12.2
+lxml==4.9.3
+
+# APIs
+praw==7.7.1  # Reddit
+google-api-python-client==2.95.0  # YouTube
+
+# Quality & Testing
+great-expectations==0.17.12
+pytest==7.4.0
+pytest-asyncio==0.21.1
+
+# Storage
+boto3==1.28.17  # S3
+minio==7.1.16
+
+# Orchestration
+apache-airflow==2.7.0
+redis==4.6.0
+
+# Monitoring
+prometheus-client==0.17.1
+psutil==5.9.5</code></pre>
+        </div>
+
+        <h3>Docker Compose Setup</h3>
+        <div class="code-block">
+          <pre><code class="language-yaml">version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: gaming_dataset
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secure_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  minio:
+    image: minio/minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  airflow:
+    image: apache/airflow:2.7.0
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      AIRFLOW__CORE__EXECUTOR: CeleryExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://admin:secure_password@postgres/gaming_dataset
+      AIRFLOW__CELERY__BROKER_URL: redis://redis:6379/0
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./collectors:/opt/airflow/collectors
+    ports:
+      - "8080:8080"
+
+volumes:
+  postgres_data:
+  minio_data:</code></pre>
+        </div>
+      </section>-->
+
+      <!-- Risks Section -->
+      <section id="risks">
+        <h2>⚠️ Risk Management</h2>
+
+        <h3>Risk Matrix</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Risk</th>
+              <th>Probability</th>
+              <th>Impact</th>
+              <th>Mitigation Strategy</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>API Rate Limiting</td>
+              <td><span class="badge badge-warning">High</span></td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td>Multi-account rotation, caching, exponential backoff</td>
+            </tr>
+            <tr>
+              <td>Data Quality Issues</td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td><span class="badge badge-primary">High</span></td>
+              <td>
+                Robust scoring system, human validation, continuous monitoring
+              </td>
+            </tr>
+            <tr>
+              <td>Storage Costs Explosion</td>
+              <td><span class="badge badge-success">Low</span></td>
+              <td><span class="badge badge-primary">High</span></td>
+              <td>Compression, tiered storage, regular cleanup</td>
+            </tr>
+            <tr>
+              <td>Copyright Violations</td>
+              <td><span class="badge badge-success">Low</span></td>
+              <td><span class="badge badge-primary">High</span></td>
+              <td>Extract facts only, respect ToS, legal review</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Contingency Plans</h3>
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Technical Risks Coverage</span>
+            <span>85%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 85%"></div>
+          </div>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Legal Risks Coverage</span>
+            <span>95%</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: 95%"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Next Steps Section -->
+      <section id="next-steps">
+        <h2>🎬 Immediate Next Steps</h2>
+
+        <h3>Day 1 Checklist</h3>
+        <div
+          style="
+            background: #161b22;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+          "
+        >
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Setup development environment
+          </label>
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Create GitHub repository
+          </label>
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Install Python dependencies
+          </label>
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Setup local MinIO for testing
+          </label>
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Implement BaseCollector class
+          </label>
+          <label style="display: block; margin: 10px 0">
+            <input type="checkbox" style="margin-right: 10px" />
+            Test Wikipedia API connectivity
+          </label>
+        </div>
+
+        <h3>Week 1 Targets</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="number">10,000</div>
+            <div class="label">Wikipedia Articles</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">150MB</div>
+            <div class="label">Data Volume</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">100%</div>
+            <div class="label">Test Coverage</div>
+          </div>
+          <div class="stat-card">
+            <div class="number">0.85+</div>
+            <div class="label">Quality Score</div>
+          </div>
+        </div>
+
+        <h3>Questions for Team Discussion</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Topic</th>
+              <th>Question</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Infrastructure</td>
+              <td>Preferred cloud provider (AWS/GCP/Azure)?</td>
+              <td>Architecture design</td>
+            </tr>
+            <tr>
+              <td>Orchestration</td>
+              <td>Airflow vs Prefect vs Dagster?</td>
+              <td>Pipeline complexity</td>
+            </tr>
+            <tr>
+              <td>Priorities</td>
+              <td>Which gaming genres to prioritize?</td>
+              <td>Data collection focus</td>
+            </tr>
+            <tr>
+              <td>Quality</td>
+              <td>External validation team available?</td>
+              <td>Quality assurance</td>
+            </tr>
+            <tr>
+              <td>Budget</td>
+              <td>Confirmed budget allocation?</td>
+              <td>Resource planning</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div
+          style="
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            text-align: center;
+          "
+        >
+          <h3 style="margin-bottom: 20px">
+            Ready to Build the Ultimate Gaming Dataset? 🚀
+          </h3>
+          <p style="font-size: 1.1em">
+            This comprehensive plan provides everything needed to create a
+            world-class gaming dataset for LLM training.
+          </p>
+          <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.9">
+            Expected completion: 8 weeks | Expected size: 25GB+ | Expected
+            quality: 87%+
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Toggle mobile menu
+      function toggleMenu() {
+          const sidebar = document.getElementById('sidebar');
+          sidebar.classList.toggle('active');
+      }
+
+      // Smooth scrolling for navigation
+      document.querySelectorAll('nav a').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+              e.preventDefault();
+              const targetId = this.getAttribute('href').substring(1);
+              const targetSection = document.getElementById(targetId);
+              targetSection.scrollIntoView({ behavior: 'smooth' });
+
+              // Close mobile menu after clicking
+              if (window.innerWidth <= 768) {
+                  document.getElementById('sidebar').classList.remove('active');
+              }
+          });
+      });
+
+      // Chart configurations
+      const chartColors = {
+          primary: '#58a6ff',
+          success: '#3fb950',
+          warning: '#f0883e',
+          danger: '#f85149',
+          info: '#79c0ff',
+          purple: '#a371f7'
+      };
+
+      // Distribution Chart
+      const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+      new Chart(distributionCtx, {
+          type: 'doughnut',
+          data: {
+              labels: ['Encyclopedia (40%)', 'Tutorials (30%)', 'Discussions (20%)', 'Reviews (10%)'],
+              datasets: [{
+                  data: [40, 30, 20, 10],
+                  backgroundColor: [
+                      chartColors.primary,
+                      chartColors.success,
+                      chartColors.warning,
+                      chartColors.purple
+                  ],
+                  borderWidth: 0
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                  legend: {
+                      position: 'right',
+                      labels: {
+                          color: '#e0e0e0',
+                          padding: 20,
+                          font: {
+                              size: 14
+                          }
+                      }
+                  },
+                  title: {
+                      display: true,
+                      text: 'Content Type Distribution',
+                      color: '#e0e0e0',
+                      font: {
+                          size: 18
+                      }
+                  }
+              }
+          }
+      });
+
+      // Sources Volume Chart
+      const sourcesCtx = document.getElementById('sourcesChart').getContext('2d');
+      new Chart(sourcesCtx, {
+          type: 'bar',
+          data: {
+              labels: ['Wikipedia', 'Steam', 'YouTube', 'Reddit', 'Gaming Wikis', 'Others'],
+              datasets: [{
+                  label: 'Data Volume (GB)',
+                  data: [2, 3, 8, 4, 6, 2],
+                  backgroundColor: chartColors.primary,
+                  borderRadius: 8
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      grid: {
+                          color: '#30363d'
+                      },
+                      ticks: {
+                          color: '#8b949e'
+                      }
+                  },
+                  x: {
+                      grid: {
+                          display: false
+                      },
+                      ticks: {
+                          color: '#8b949e'
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  },
+                  title: {
+                      display: true,
+                      text: 'Expected Data Volume by Source',
+                      color: '#e0e0e0',
+                      font: {
+                          size: 18
+                      }
+                  }
+              }
+          }
+      });
+
+      // Quality Weights Chart
+      const qualityCtx = document.getElementById('qualityChart').getContext('2d');
+      new Chart(qualityCtx, {
+          type: 'radar',
+          data: {
+              labels: ['Gaming Density (35%)', 'Structure (20%)', 'Uniqueness (20%)', 'Length (15%)', 'Freshness (10%)'],
+              datasets: [{
+                  label: 'Quality Weights',
+                  data: [35, 20, 20, 15, 10],
+                  backgroundColor: 'rgba(88, 166, 255, 0.2)',
+                  borderColor: chartColors.primary,
+                  pointBackgroundColor: chartColors.primary,
+                  pointBorderColor: '#fff',
+                  pointHoverBackgroundColor: '#fff',
+                  pointHoverBorderColor: chartColors.primary
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  r: {
+                      beginAtZero: true,
+                      max: 40,
+                      grid: {
+                          color: '#30363d'
+                      },
+                      pointLabels: {
+                          color: '#8b949e',
+                          font: {
+                              size: 12
+                          }
+                      },
+                      ticks: {
+                          color: '#8b949e',
+                          backdropColor: 'transparent'
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  },
+                  title: {
+                      display: true,
+                      text: 'Quality Scoring Weights',
+                      color: '#e0e0e0',
+                      font: {
+                          size: 18
+                      }
+                  }
+              }
+          }
+      });
+
+      // Gantt Chart
+      const ganttCtx = document.getElementById('ganttChart').getContext('2d');
+      new Chart(ganttCtx, {
+          type: 'bar',
+          data: {
+              labels: ['Foundation', 'Expansion', 'Enrichment', 'Optimization'],
+              datasets: [{
+                  label: 'Timeline',
+                  data: [
+                      { x: [0, 2], y: 0 },
+                      { x: [2, 4], y: 1 },
+                      { x: [4, 6], y: 2 },
+                      { x: [6, 8], y: 3 }
+                  ],
+                  backgroundColor: [
+                      chartColors.primary,
+                      chartColors.success,
+                      chartColors.warning,
+                      chartColors.purple
+                  ],
+                  barThickness: 40
+              }]
+          },
+          options: {
+              indexAxis: 'y',
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  x: {
+                      type: 'linear',
+                      position: 'bottom',
+                      title: {
+                          display: true,
+                          text: 'Weeks',
+                          color: '#8b949e'
+                      },
+                      grid: {
+                          color: '#30363d'
+                      },
+                      ticks: {
+                          color: '#8b949e',
+                          stepSize: 1
+                      },
+                      max: 8
+                  },
+                  y: {
+                      grid: {
+                          display: false
+                      },
+                      ticks: {
+                          color: '#8b949e'
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  },
+                  title: {
+                      display: true,
+                      text: 'Project Timeline (8 Weeks)',
+                      color: '#e0e0e0',
+                      font: {
+                          size: 18
+                      }
+                  },
+                  tooltip: {
+                      callbacks: {
+                          label: function(context) {
+                              const phases = ['Foundation', 'Expansion', 'Enrichment', 'Optimization'];
+                              const deliverables = ['500MB dataset', '5GB dataset', '15GB dataset', '25GB+ final dataset'];
+                              return phases[context.dataIndex] + ': ' + deliverables[context.dataIndex];
+                          }
+                      }
+                  }
+              }
+          }
+      });
+
+      // Resource Allocation Chart
+      const resourceCtx = document.getElementById('resourceChart').getContext('2d');
+      new Chart(resourceCtx, {
+          type: 'bar',
+          data: {
+              labels: ['Data Engineer Lead', 'Data Engineers (2)', 'ML Engineer', 'QA/Validation'],
+              datasets: [{
+                  label: 'Cost ($K)',
+                  data: [20, 32, 8, 3],
+                  backgroundColor: [
+                      chartColors.primary,
+                      chartColors.success,
+                      chartColors.warning,
+                      chartColors.info
+                  ],
+                  borderRadius: 8
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                  y: {
+                      beginAtZero: true,
+                      grid: {
+                          color: '#30363d'
+                      },
+                      ticks: {
+                          color: '#8b949e',
+                          callback: function(value) {
+                              return ' + value + 'K';
+                          }
+                      }
+                  },
+                  x: {
+                      grid: {
+                          display: false
+                      },
+                      ticks: {
+                          color: '#8b949e'
+                      }
+                  }
+              },
+              plugins: {
+                  legend: {
+                      display: false
+                  },
+                  title: {
+                      display: true,
+                      text: 'Team Resource Allocation (8 weeks)',
+                      color: '#e0e0e0',
+                      font: {
+                          size: 18
+                      }
+                  }
+              }
+          }
+      });
+
+      // Animate progress bars on scroll
+      const progressBars = document.querySelectorAll('.progress-fill');
+      const animateProgress = (entries, observer) => {
+          entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                  const progressBar = entry.target;
+                  const targetWidth = progressBar.style.width;
+                  progressBar.style.width = '0%';
+                  setTimeout(() => {
+                      progressBar.style.width = targetWidth;
+                  }, 100);
+                  observer.unobserve(progressBar);
+              }
+          });
+      };
+
+      const progressObserver = new IntersectionObserver(animateProgress, {
+          threshold: 0.5
+      });
+
+      progressBars.forEach(bar => {
+          progressObserver.observe(bar);
+      });
+
+      // Add some interactive features
+      document.querySelectorAll('.stat-card').forEach(card => {
+          card.addEventListener('click', function() {
+              this.style.transform = 'scale(0.95)';
+              setTimeout(() => {
+                  this.style.transform = '';
+              }, 200);
+          });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phase 1 - Wikipedia Gaming Dataset (500MB)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 20px;
+        }
+        .summary-box {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        .category-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .game-list {
+            columns: 2;
+            column-gap: 20px;
+            margin-top: 10px;
+        }
+        .game-list li {
+            break-inside: avoid;
+            margin-bottom: 5px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .stat-box {
+            background: #3498db;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            display: block;
+        }
+        .priority {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        .priority-high { background: #e74c3c; color: white; }
+        .priority-medium { background: #f39c12; color: white; }
+        .priority-low { background: #95a5a6; color: white; }
+    </style>
+</head>
+<body>
+    <h1>🎮 Phase 1 : Dataset Wikipedia Gaming (500MB)</h1>
+
+    <div class="summary-box">
+        <h2>📈 Résumé Exécutif</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <span class="stat-number">500 MB</span>
+                <span>Taille totale</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">1,250</span>
+                <span>Articles estimés</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">400 KB</span>
+                <span>Taille moyenne/article</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-number">12</span>
+                <span>Catégories principales</span>
+            </div>
+        </div>
+    </div>
+
+    <h2>📊 Distribution détaillée par catégorie</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Articles</th>
+                <th>Taille moy.</th>
+                <th>Total</th>
+                <th>Priorité</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Jeux AAA majeurs (2020-2024)</strong></td>
+                <td>150</td>
+                <td>600 KB</td>
+                <td>90 MB</td>
+                <td><span class="priority priority-high">HAUTE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Franchises iconiques</strong></td>
+                <td>100</td>
+                <td>500 KB</td>
+                <td>50 MB</td>
+                <td><span class="priority priority-high">HAUTE</span></td>
+            </tr>
+            <tr>
+                <td><strong>GOTY Winners (2010-2024)</strong></td>
+                <td>75</td>
+                <td>550 KB</td>
+                <td>41 MB</td>
+                <td><span class="priority priority-high">HAUTE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Esports & jeux compétitifs</strong></td>
+                <td>80</td>
+                <td>450 KB</td>
+                <td>36 MB</td>
+                <td><span class="priority priority-high">HAUTE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Indies révolutionnaires</strong></td>
+                <td>100</td>
+                <td>350 KB</td>
+                <td>35 MB</td>
+                <td><span class="priority priority-medium">MOYENNE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Classiques intemporels</strong></td>
+                <td>80</td>
+                <td>400 KB</td>
+                <td>32 MB</td>
+                <td><span class="priority priority-medium">MOYENNE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Genres & concepts gaming</strong></td>
+                <td>120</td>
+                <td>300 KB</td>
+                <td>36 MB</td>
+                <td><span class="priority priority-medium">MOYENNE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Studios & éditeurs majeurs</strong></td>
+                <td>100</td>
+                <td>350 KB</td>
+                <td>35 MB</td>
+                <td><span class="priority priority-medium">MOYENNE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Plateformes & services</strong></td>
+                <td>50</td>
+                <td>400 KB</td>
+                <td>20 MB</td>
+                <td><span class="priority priority-medium">MOYENNE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Personnalités influentes</strong></td>
+                <td>150</td>
+                <td>250 KB</td>
+                <td>38 MB</td>
+                <td><span class="priority priority-low">BASSE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Technologies & moteurs</strong></td>
+                <td>80</td>
+                <td>300 KB</td>
+                <td>24 MB</td>
+                <td><span class="priority priority-low">BASSE</span></td>
+            </tr>
+            <tr>
+                <td><strong>Histoire & culture gaming</strong></td>
+                <td>165</td>
+                <td>400 KB</td>
+                <td>66 MB</td>
+                <td><span class="priority priority-low">BASSE</span></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr style="font-weight: bold; background-color: #ecf0f1;">
+                <td>TOTAL</td>
+                <td>1,250</td>
+                <td>400 KB</td>
+                <td>503 MB</td>
+                <td>-</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <h2>🎯 Détail des catégories prioritaires</h2>
+
+    <div class="category-section">
+        <h3>1. Jeux AAA majeurs (2020-2024) - 90 MB</h3>
+        <p><strong>Objectif :</strong> Capturer le vocabulaire et les tendances actuelles du gaming</p>
+        <ul class="game-list">
+            <li>Baldur's Gate 3</li>
+            <li>Elden Ring</li>
+            <li>The Last of Us Part II</li>
+            <li>Cyberpunk 2077</li>
+            <li>God of War Ragnarök</li>
+            <li>Horizon Forbidden West</li>
+            <li>Hades</li>
+            <li>Ghost of Tsushima</li>
+            <li>Red Dead Redemption 2</li>
+            <li>Hogwarts Legacy</li>
+            <li>Starfield</li>
+            <li>Diablo IV</li>
+            <li>Call of Duty: Modern Warfare II</li>
+            <li>Spider-Man: Miles Morales</li>
+            <li>Resident Evil 4 (2023)</li>
+        </ul>
+    </div>
+
+    <div class="category-section">
+        <h3>2. Franchises iconiques - 50 MB</h3>
+        <p><strong>Objectif :</strong> Couvrir les séries qui définissent le medium</p>
+        <ul class="game-list">
+            <li>The Legend of Zelda (série)</li>
+            <li>Super Mario (série)</li>
+            <li>Grand Theft Auto (série)</li>
+            <li>The Elder Scrolls (série)</li>
+            <li>Final Fantasy (série)</li>
+            <li>Call of Duty (série)</li>
+            <li>Assassin's Creed (série)</li>
+            <li>Pokémon (jeux vidéo)</li>
+            <li>Dark Souls (série)</li>
+            <li>Metal Gear (série)</li>
+            <li>Half-Life (série)</li>
+            <li>The Witcher (série)</li>
+            <li>Battlefield (série)</li>
+            <li>Halo (série)</li>
+            <li>God of War (série)</li>
+        </ul>
+    </div>
+
+    <div class="category-section">
+        <h3>3. Esports & jeux compétitifs - 36 MB</h3>
+        <p><strong>Objectif :</strong> Vocabulaire spécifique à la compétition et au gaming moderne</p>
+        <ul class="game-list">
+            <li>League of Legends</li>
+            <li>Counter-Strike: Global Offensive</li>
+            <li>Valorant</li>
+            <li>Dota 2</li>
+            <li>Overwatch 2</li>
+            <li>Rocket League</li>
+            <li>Rainbow Six Siege</li>
+            <li>Apex Legends</li>
+            <li>Street Fighter 6</li>
+            <li>Tekken 8</li>
+            <li>StarCraft II</li>
+            <li>PUBG: Battlegrounds</li>
+            <li>FIFA 24</li>
+            <li>NBA 2K24</li>
+            <li>Hearthstone</li>
+        </ul>
+    </div>
+
+    <h2>🔍 Critères de sélection</h2>
+    
+    <div class="category-section">
+        <h3>Filtres appliqués :</h3>
+        <ul>
+            <li><strong>Taille minimale :</strong> 100 KB (éviter les stubs)</li>
+            <li><strong>Sections requises :</strong> Gameplay, Development, Reception</li>
+            <li><strong>Score Metacritic :</strong> > 75 (si applicable)</li>
+            <li><strong>Importance culturelle :</strong> Mentions dans autres articles > 50</li>
+            <li><strong>Activité récente :</strong> Éditions dans les 6 derniers mois</li>
+            <li><strong>Qualité de prose :</strong> Featured/Good article status privilégié</li>
+        </ul>
+    </div>
+
+    <h2>📅 Ordre de collecte recommandé</h2>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Phase</th>
+                <th>Catégories</th>
+                <th>Taille</th>
+                <th>Justification</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1A</td>
+                <td>AAA récents + GOTY</td>
+                <td>130 MB</td>
+                <td>Vocabulaire moderne, haute qualité</td>
+            </tr>
+            <tr>
+                <td>1B</td>
+                <td>Franchises + Esports</td>
+                <td>86 MB</td>
+                <td>Profondeur historique + compétitif</td>
+            </tr>
+            <tr>
+                <td>1C</td>
+                <td>Indies + Classiques</td>
+                <td>67 MB</td>
+                <td>Diversité des styles</td>
+            </tr>
+            <tr>
+                <td>1D</td>
+                <td>Infrastructure (studios, plateformes)</td>
+                <td>91 MB</td>
+                <td>Contexte industrie</td>
+            </tr>
+            <tr>
+                <td>1E</td>
+                <td>Concepts + Histoire</td>
+                <td>126 MB</td>
+                <td>Théorie et culture</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>⚡ Commandes pour exécution</h2>
+    
+    <div class="category-section">
+        <h3>Collecte Phase 1A (priorité haute) :</h3>
+        <pre style="background: #2c3e50; color: white; padding: 15px; border-radius: 5px; overflow-x: auto;">
+# Collecter les jeux AAA récents
+python main.py --source wikipedia \
+    --categories "Category:Video_games_developed_in_Japan,Category:Video_games_developed_in_the_United_States" \
+    --year-range 2020-2024 \
+    --min-size 100000 \
+    --max-articles 150 \
+    --output-prefix "aaa_recent"
+
+# Collecter les GOTY
+python main.py --source wikipedia \
+    --categories "Category:The_Game_Award_for_Game_of_the_Year_winners,Category:BAFTA_Games_Award_for_Best_Game_winners" \
+    --min-size 100000 \
+    --max-articles 75 \
+    --output-prefix "goty_winners"
+        </pre>
+    </div>
+
+    <h2>🎯 Résultats attendus</h2>
+    
+    <div class="summary-box">
+        <ul>
+            <li><strong>Couverture vocabulaire :</strong> 95% des termes gaming modernes</li>
+            <li><strong>Qualité moyenne :</strong> Score > 0.7 (articles bien structurés)</li>
+            <li><strong>Diversité :</strong> 15+ genres, 20+ plateformes, 50+ studios</li>
+            <li><strong>Temporalité :</strong> 60% contenu < 5 ans, 40% classiques</li>
+            <li><strong>Longueur articles :</strong> 2,000 - 10,000 mots en moyenne</li>
+        </ul>
+    </div>
+
+</body>
+</html>

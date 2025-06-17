@@ -1,0 +1,23 @@
+2025-06-16 21:05:48.388 | INFO     | __main__:main:69 - Starting collection from wikipedia
+2025-06-16 21:05:48.388 | INFO     | __main__:main:70 - Output directory: data/raw
+2025-06-16 21:05:48.388 | INFO     | __main__:main:71 - Batch size: 1000, Limit: 100
+2025-06-16 21:05:48.388 | INFO     | __main__:main:72 - Minimum quality score: 0.75
+2025-06-16 21:05:48.389 | INFO     | storage.parquet_manager:__init__:44 - Initialized ParquetManager at data/raw
+2025-06-16 21:05:48.679 | INFO     | processors.quality_scorer:__init__:44 - spaCy model loaded successfully
+2025-06-16 21:05:48.683 | INFO     | collectors.base_collector:__aenter__:69 - Started WikipediaCollector
+2025-06-16 21:05:48.697 | INFO     | collectors.base_collector:load_checkpoint:195 - Loaded checkpoint from 2025-06-16T16:25:19.191886
+2025-06-16 21:05:48.697 | INFO     | collectors.wikipedia_collector:extract:74 - Resuming from checkpoint with 0 processed pages
+2025-06-16 21:05:48.697 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Video_games_by_year
+2025-06-16 21:05:49.003 | INFO     | collectors.wikipedia_collector:extract:83 - Found 26 total pages in Category:Video_games_by_year
+2025-06-16 21:05:49.003 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 26 new pages from Category:Video_games_by_year
+2025-06-16 21:05:49.106 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.107 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.108 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.108 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.109 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.109 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.109 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.110 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.110 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:49.110 | ERROR    | collectors.base_collector:fetch_with_retry:122 - Error fetching https://en.wikipedia.org/w/api.php: Invalid variable type: value should be str, int or float, got True of type <class 'bool'>
+2025-06-16 21:05:50.504 | INFO     | collectors.base_collector:__aexit__:76 - Stopped WikipediaCollector. Collected: 0, Errors: 10

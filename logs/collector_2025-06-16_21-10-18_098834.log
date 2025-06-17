@@ -1,0 +1,19 @@
+2025-06-16 21:10:18.103 | INFO     | __main__:main:69 - Starting collection from wikipedia
+2025-06-16 21:10:18.103 | INFO     | __main__:main:70 - Output directory: data/raw
+2025-06-16 21:10:18.103 | INFO     | __main__:main:71 - Batch size: 1000, Limit: 100
+2025-06-16 21:10:18.103 | INFO     | __main__:main:72 - Minimum quality score: 0.7
+2025-06-16 21:10:18.104 | INFO     | storage.parquet_manager:__init__:44 - Initialized ParquetManager at data/raw
+2025-06-16 21:10:18.395 | INFO     | processors.quality_scorer:__init__:44 - spaCy model loaded successfully
+2025-06-16 21:10:18.399 | INFO     | collectors.base_collector:__aenter__:69 - Started WikipediaCollector
+2025-06-16 21:10:18.409 | INFO     | collectors.base_collector:load_checkpoint:195 - Loaded checkpoint from 2025-06-16T16:25:19.191886
+2025-06-16 21:10:18.409 | INFO     | collectors.wikipedia_collector:extract:74 - Resuming from checkpoint with 0 processed pages
+2025-06-16 21:10:18.409 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Video_games_by_year
+2025-06-16 21:10:18.723 | INFO     | collectors.wikipedia_collector:extract:83 - Found 26 total pages in Category:Video_games_by_year
+2025-06-16 21:10:18.723 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 26 new pages from Category:Video_games_by_year
+2025-06-16 21:10:28.933 | INFO     | collectors.base_collector:save_checkpoint:186 - Saved checkpoint to checkpoints/wikipedia_collector.json
+2025-06-16 21:10:28.934 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Windows_games
+2025-06-16 21:10:41.352 | INFO     | collectors.wikipedia_collector:extract:83 - Found 11957 total pages in Category:Windows_games
+2025-06-16 21:10:41.355 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 11957 new pages from Category:Windows_games
+2025-06-16 21:10:44.256 | INFO     | collectors.base_collector:save_checkpoint:186 - Saved checkpoint to checkpoints/wikipedia_collector.json
+2025-06-16 21:10:48.442 | INFO     | collectors.base_collector:save_checkpoint:186 - Saved checkpoint to checkpoints/wikipedia_collector.json
+2025-06-16 21:10:53.402 | INFO     | collectors.base_collector:__aexit__:76 - Stopped WikipediaCollector. Collected: 298, Errors: 0

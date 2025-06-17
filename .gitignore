@@ -1,0 +1,265 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv/
+.ENV/
+.env/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Testing
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.pytest_cache/
+cover/
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.coveragerc
+
+# Data files (important pour votre projet!)
+data/
+*.parquet
+*.csv
+*.json
+*.jsonl
+*.txt
+*.tsv
+*.xlsx
+*.xls
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+*.npy
+*.npz
+
+# Logs
+logs/
+*.log
+*.log.*
+log/
+
+# Checkpoints
+checkpoints/
+*.ckpt
+checkpoint*
+
+# Model files
+models/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+*.pb
+*.h5
+*.keras
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Secrets and credentials
+*.pem
+*.key
+*.crt
+*.cer
+secrets/
+credentials/
+config/secrets/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Cache
+.cache/
+*.cache
+
+# Documentation build
+docs/_build/
+docs/.doctrees/
+site/
+
+# Profiling
+*.prof
+*.lprof
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+cython_debug/
+
+# FastAPI
+.vercel
+
+# Project specific
+/data/
+/output/
+/results/
+/experiments/
+/wandb/
+/mlruns/
+/tensorboard/
+raw_data/
+processed_data/
+interim_data/
+external_data/
+models/
+reports/figures/
+*.joblib
+
+# Large files
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.iso
+*.dmg
+
+# VS Code specific
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local config
+local_config.py
+local_settings.py
+
+# Streamlit
+.streamlit/
+
+# AWS
+.aws/
+
+# Google Cloud
+.gcloud/
+*.json.enc
+
+# Azure
+.azure/
+
+# Weights & Biases
+wandb/
+
+# MLflow
+mlruns/
+
+# Neptune
+.neptune/
+
+# Comet
+.comet/
+
+# Prefect
+.prefect/
+
+# Dask
+dask-worker-space/
+
+# Ray
+ray_results/
+
+# Hydra
+outputs/
+multirun/
+
+# DVC
+.dvc/
+.dvcignore
+
+# Airflow
+airflow.db
+airflow-webserver.pid
+standalone_admin_password.txt
+webserver_config.py
+
+# Custom project patterns
+wikipedia_phase1/
+reddit_phase1/
+steam_phase1/
+gaming_terms_cache.json
+collection_report_*.json

@@ -1,0 +1,293 @@
+2025-06-16 21:40:50.156 | INFO     | __main__:main:73 - Starting collection from wikipedia
+2025-06-16 21:40:50.156 | INFO     | __main__:main:74 - Output directory: data/raw
+2025-06-16 21:40:50.156 | INFO     | __main__:main:75 - Batch size: 1000, Limit: 5
+2025-06-16 21:40:50.157 | INFO     | __main__:main:76 - Minimum quality score: 0.2
+2025-06-16 21:40:50.157 | INFO     | __main__:main:77 - Debug mode: True
+2025-06-16 21:40:50.158 | INFO     | storage.parquet_manager:__init__:44 - Initialized ParquetManager at data/raw
+2025-06-16 21:40:50.438 | INFO     | processors.quality_scorer:__init__:43 - spaCy model loaded successfully
+2025-06-16 21:40:50.442 | INFO     | collectors.base_collector:__aenter__:69 - Started WikipediaCollector
+2025-06-16 21:40:50.453 | INFO     | collectors.base_collector:load_checkpoint:195 - Loaded checkpoint from 2025-06-16T21:39:14.707266
+2025-06-16 21:40:50.453 | INFO     | collectors.wikipedia_collector:extract:74 - Resuming from checkpoint with 1954 processed pages
+2025-06-16 21:40:50.453 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Video_games_by_year
+2025-06-16 21:40:50.978 | INFO     | collectors.wikipedia_collector:extract:83 - Found 0 total pages in Category:Video_games_by_year
+2025-06-16 21:40:50.978 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 0 new pages from Category:Video_games_by_year
+2025-06-16 21:40:50.978 | INFO     | collectors.wikipedia_collector:extract:78 - Processing category: Category:Windows_games
+2025-06-16 21:41:06.699 | INFO     | collectors.wikipedia_collector:extract:83 - Found 10028 total pages in Category:Windows_games
+2025-06-16 21:41:06.707 | INFO     | collectors.wikipedia_collector:extract:87 - Processing 10028 new pages from Category:Windows_games
+2025-06-16 21:41:06.997 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anteworld - content too short
+2025-06-16 21:41:07.008 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Alex Kidd in Miracle World DX - content too short
+2025-06-16 21:41:07.009 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Babe: A Little Pig Goes a Long Way - content too short
+2025-06-16 21:41:07.010 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1404: Venice - content too short
+2025-06-16 21:41:07.012 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1602: New Islands, New Adventures - content too short
+2025-06-16 21:41:07.013 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1503: Treasures, Monsters and Pirates - content too short
+2025-06-16 21:41:07.023 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping After Dark Games - content too short
+2025-06-16 21:41:07.026 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1602: By Royal Command - content too short
+2025-06-16 21:41:07.045 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Anno 1701: The Sunken Dragon - content too short
+2025-06-16 21:41:07.060 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping The Addams Family: Mansion Mayhem - content too short
+2025-06-16 21:41:07.313 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Bloons Monkey City - content too short
+2025-06-16 21:41:07.319 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Barbie as the Princess and the Pauper (video game) - content too short
+2025-06-16 21:41:07.325 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Baten Kaitos I & II HD Remaster - content too short
+2025-06-16 21:41:07.326 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Cabela's GrandSlam Hunting: North American 29 - content too short
+2025-06-16 21:41:07.328 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blue Sphere - content too short
+2025-06-16 21:41:07.333 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Big Money! - content too short
+2025-06-16 21:41:07.333 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Castlevania Advance Collection - content too short
+2025-06-16 21:41:07.333 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blood: Fresh Supply - content too short
+2025-06-16 21:41:07.334 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Castlevania Anniversary Collection - content too short
+2025-06-16 21:41:07.444 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Blade Runner: Enhanced Edition - content too short
+2025-06-16 21:41:07.699 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Clock Tower: Rewind - content too short
+2025-06-16 21:41:07.700 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Clock Tower Rewind - content too short
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:140 - Document: Close Combat: Marines
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:141 - Word count: 165
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:142 - Quality score: 0.249
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.893 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.893 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:140 - Document: Close to the Sun (video game)
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:141 - Word count: 2032
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:142 - Quality score: 0.276
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:143 - Gaming terms found: 2
+2025-06-16 21:41:08.894 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.894 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:140 - Document: Closers (video game)
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:141 - Word count: 791
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:142 - Quality score: 0.354
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:143 - Gaming terms found: 3
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.895 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.895 | INFO     | __main__:collect_data:140 - Document: Closure (video game)
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:141 - Word count: 696
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:142 - Quality score: 0.365
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.896 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:140 - Document: Cloud (video game)
+2025-06-16 21:41:08.896 | INFO     | __main__:collect_data:141 - Word count: 1784
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:142 - Quality score: 0.288
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.897 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:140 - Document: Cloud Gardens (video game)
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:141 - Word count: 547
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:142 - Quality score: 0.363
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:143 - Gaming terms found: 1
+2025-06-16 21:41:08.897 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.897 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:140 - Document: Cloudberry Kingdom
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:141 - Word count: 656
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:142 - Quality score: 0.371
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.898 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:140 - Document: Cloudbuilt
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:141 - Word count: 506
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:142 - Quality score: 0.392
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:143 - Gaming terms found: 4
+2025-06-16 21:41:08.898 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.898 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:140 - Document: Cloudpunk
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:141 - Word count: 2033
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:142 - Quality score: 0.281
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:143 - Gaming terms found: 7
+2025-06-16 21:41:08.899 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.900 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:140 - Document: Cloudy with a Chance of Meatballs (video game)
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:141 - Word count: 1167
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:142 - Quality score: 0.329
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:143 - Gaming terms found: 2
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.900 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.900 | INFO     | __main__:collect_data:140 - Document: Clover Heart's
+2025-06-16 21:41:08.901 | INFO     | __main__:collect_data:141 - Word count: 399
+2025-06-16 21:41:08.901 | INFO     | __main__:collect_data:142 - Quality score: 0.320
+2025-06-16 21:41:08.901 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.901 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.901 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:140 - Document: Club Penguin Island
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:141 - Word count: 2692
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:142 - Quality score: 0.256
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.902 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.902 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.903 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.903 | INFO     | __main__:collect_data:140 - Document: The Club (video game)
+2025-06-16 21:41:08.903 | INFO     | __main__:collect_data:141 - Word count: 1802
+2025-06-16 21:41:08.903 | INFO     | __main__:collect_data:142 - Quality score: 0.287
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:143 - Gaming terms found: 2
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.904 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:140 - Document: Cluck Yegger in Escape from the Planet of the Poultroid
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:141 - Word count: 777
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:142 - Quality score: 0.355
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:143 - Gaming terms found: 2
+2025-06-16 21:41:08.904 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.904 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.905 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.905 | INFO     | __main__:collect_data:140 - Document: Clue Chronicles: Fatal Illusion
+2025-06-16 21:41:08.905 | INFO     | __main__:collect_data:141 - Word count: 2310
+2025-06-16 21:41:08.905 | INFO     | __main__:collect_data:142 - Quality score: 0.269
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:143 - Gaming terms found: 1
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.906 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:140 - Document: Clue Classic
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:141 - Word count: 389
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:142 - Quality score: 0.326
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.906 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.906 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:140 - Document: The ClueFinders 3rd Grade Adventures: The Mystery of Mathra
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:141 - Word count: 623
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:142 - Quality score: 0.350
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:143 - Gaming terms found: 1
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.907 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:140 - Document: The ClueFinders 4th Grade Adventures: Puzzle of the Pyramid
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:141 - Word count: 466
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:142 - Quality score: 0.340
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.907 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.907 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:140 - Document: The ClueFinders 5th Grade Adventures: The Secret of the Living Volcano
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:141 - Word count: 446
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:142 - Quality score: 0.334
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.908 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:140 - Document: The ClueFinders 6th Grade Adventures: The Empire of the Plant People
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:141 - Word count: 402
+2025-06-16 21:41:08.908 | INFO     | __main__:collect_data:142 - Quality score: 0.321
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.909 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:140 - Document: The ClueFinders Math Adventures
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:141 - Word count: 405
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:142 - Quality score: 0.322
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.909 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:140 - Document: The ClueFinders Search and Solve Adventures
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:141 - Word count: 393
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:142 - Quality score: 0.318
+2025-06-16 21:41:08.909 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.910 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:140 - Document: The ClueFinders: The Incredible Toy Store Adventure!
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:141 - Word count: 416
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:142 - Quality score: 0.325
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.910 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.910 | INFO     | __main__:collect_data:140 - Document: Clusterball
+2025-06-16 21:41:08.911 | INFO     | __main__:collect_data:141 - Word count: 1073
+2025-06-16 21:41:08.911 | INFO     | __main__:collect_data:142 - Quality score: 0.343
+2025-06-16 21:41:08.911 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.911 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.911 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:140 - Document: Clustertruck
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:141 - Word count: 2096
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:142 - Quality score: 0.295
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:143 - Gaming terms found: 16
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.912 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:140 - Document: Cobalt (video game)
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:141 - Word count: 1042
+2025-06-16 21:41:08.912 | INFO     | __main__:collect_data:142 - Quality score: 0.364
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:143 - Gaming terms found: 6
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.913 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:140 - Document: Cobalt Core
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:141 - Word count: 1089
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:142 - Quality score: 0.363
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:143 - Gaming terms found: 5
+2025-06-16 21:41:08.913 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.913 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:139 - 
+============================================================
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:140 - Document: Cobalt WASD
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:141 - Word count: 393
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:142 - Quality score: 0.327
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:143 - Gaming terms found: 0
+2025-06-16 21:41:08.914 | INFO     | __main__:collect_data:144 - ============================================================
+
+2025-06-16 21:41:08.914 | ERROR    | __main__:collect_data:170 - Error processing document: 'NoneType' object does not support item assignment
+2025-06-16 21:41:08.918 | INFO     | collectors.base_collector:save_checkpoint:186 - Saved checkpoint to checkpoints/wikipedia_collector.json
+2025-06-16 21:41:09.207 | DEBUG    | collectors.wikipedia_collector:extract_item:212 - Skipping Code of Princess EX - content too short
+2025-06-16 21:41:15.189 | INFO     | collectors.base_collector:__aexit__:76 - Stopped WikipediaCollector. Collected: 134, Errors: 0

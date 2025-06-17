@@ -1,0 +1,13 @@
+{
+  "created_at": "2025-06-17T10:03:05.338581",
+  "record_count": 41,
+  "file_size": 1399549,
+  "sources": {
+    "wikipedia": 41
+  },
+  "quality_stats": {
+    "mean": 0.687,
+    "min": 0.651,
+    "max": 0.785
+  }
+}

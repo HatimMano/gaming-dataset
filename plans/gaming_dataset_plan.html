@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming Dataset Collection Strategy - Optimized Plan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0f2e 50%, #2d1b3d 100%);
+            color: #e8eaed;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 50px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            box-shadow: 0 20px 40px rgba(138, 43, 226, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #00ff94, #0066ff, #8a2be2, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #00ff94;
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, rgba(0, 255, 148, 0.15), rgba(0, 102, 255, 0.15));
+            padding: 35px;
+            border-radius: 20px;
+            border: 2px solid rgba(0, 255, 148, 0.3);
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 255, 148, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .stat-card:hover::before {
+            opacity: 1;
+            animation: shimmer 1.5s ease-in-out;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0, 255, 148, 0.25);
+            border-color: rgba(0, 255, 148, 0.6);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #00ff94;
+            display: block;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .stat-label {
+            color: #b8bcc8;
+            font-size: 1.1rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section h2 {
+            color: #00ff94;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+        
+        .section h3 {
+            color: #0099ff;
+            font-size: 1.6rem;
+            margin: 25px 0 20px 0;
+            font-weight: 500;
+        }
+        
+        .tier-section {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.12), rgba(0, 102, 255, 0.12));
+            border-radius: 15px;
+            padding: 30px;
+            margin: 25px 0;
+            border-left: 5px solid;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tier-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05), transparent);
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+        }
+        
+        .tier-critical { border-left-color: #ff4757; }
+        .tier-high { border-left-color: #ff6b9d; }
+        .tier-medium { border-left-color: #00ff94; }
+        
+        .priority-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .priority-table th {
+            background: linear-gradient(135deg, #0066ff, #8a2be2);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .priority-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+        }
+        
+        .priority-table tr:hover {
+            background: rgba(0, 255, 148, 0.08);
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .priority-critical { background: linear-gradient(45deg, #ff4757, #ff6b9d); color: white; }
+        .priority-high { background: linear-gradient(45deg, #ff6b9d, #8a2be2); color: white; }
+        .priority-medium { background: linear-gradient(45deg, #00ff94, #0099ff); color: #0a0a0a; }
+        .priority-adaptive { background: linear-gradient(45deg, #ffd700, #ffb347); color: #0a0a0a; }
+        
+        .game-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .game-card {
+            background: linear-gradient(135deg, rgba(0, 255, 148, 0.1), rgba(0, 102, 255, 0.1));
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 148, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 255, 148, 0.2);
+            border-color: rgba(0, 255, 148, 0.4);
+        }
+        
+        .game-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #00ff94;
+            margin-bottom: 10px;
+        }
+        
+        .game-reason {
+            color: #b8bcc8;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .game-metrics {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .metric-chip {
+            background: rgba(0, 102, 255, 0.2);
+            color: #0099ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .scoring-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .scoring-card {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.15), rgba(255, 107, 157, 0.15));
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+        
+        .scoring-title {
+            color: #ff6b9d;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+        
+        .weight-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 12px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .weight-name {
+            color: #e8eaed;
+            font-weight: 500;
+        }
+        
+        .weight-value {
+            color: #00ff94;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .justification {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #00ff94;
+        }
+        
+        .timeline-phases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .phase-card {
+            background: rgba(0, 255, 148, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid rgba(0, 255, 148, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .phase-card:hover {
+            border-color: rgba(0, 255, 148, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 255, 148, 0.15);
+        }
+        
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .phase-number {
+            background: linear-gradient(45deg, #00ff94, #0099ff);
+            color: #0a0a0a;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .phase-title {
+            color: #00ff94;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .impact-card {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(138, 43, 226, 0.1));
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 107, 157, 0.2);
+            text-align: center;
+        }
+        
+        .impact-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #ff6b9d;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .impact-label {
+            color: #b8bcc8;
+            font-size: 0.9rem;
+        }
+        
+        .recommendation {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 179, 71, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .recommendation-title {
+            color: #ffd700;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .highlight {
+            color: #00ff94;
+            font-weight: 600;
+        }
+        
+        .data-driven {
+            background: rgba(0, 102, 255, 0.1);
+            border-left: 4px solid #0099ff;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 8px;
+        }
+        
+        .data-driven strong {
+            color: #0099ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 Gaming Dataset Collection Strategy</h1>
+            <p class="subtitle">Optimized Content Selection & Quality Scoring Framework</p>
+        </div>
+
+        <!-- Executive Summary Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-number">750 MB</span>
+                <span class="stat-label">Optimized Target Size</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">1,800</span>
+                <span class="stat-label">Curated Articles</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">0.78+</span>
+                <span class="stat-label">Target Quality Score</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number">95%</span>
+                <span class="stat-label">Vocabulary Coverage</span>
+            </div>
+        </div>
+
+        <!-- Critical Priority Games -->
+        <div class="section">
+            <h2>🔥 Phase 1A: Critical Priority Games (220 MB)</h2>
+            <p style="margin-bottom: 25px;">Games selected based on cultural impact, vocabulary richness, and current relevance.</p>
+            
+            <div class="game-showcase">
+                <div class="game-card">
+                    <div class="game-title">Baldur's Gate 3</div>
+                    <div class="game-reason">
+                        Revolutionary narrative mechanics, extensive RPG vocabulary, and modern D&D terminology integration.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">97 Metacritic</span>
+                        <span class="metric-chip">GOTY 2023</span>
+                        <span class="metric-chip">RPG Mechanics</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Elden Ring</div>
+                    <div class="game-reason">
+                        Defines "Souls-like" genre, extensive combat terminology, and exploration mechanics vocabulary.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">96 Metacritic</span>
+                        <span class="metric-chip">Genre-defining</span>
+                        <span class="metric-chip">20M+ copies</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Cyberpunk 2077</div>
+                    <div class="game-reason">
+                        Rich RPG systems vocabulary, technical terms from patches/updates, and open-world mechanics.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">Redemption story</span>
+                        <span class="metric-chip">Tech vocabulary</span>
+                        <span class="metric-chip">Live updates</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">League of Legends</div>
+                    <div class="game-reason">
+                        Most comprehensive MOBA vocabulary, esports terminology, and 13+ years of meta evolution.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">150M+ players</span>
+                        <span class="metric-chip">Esports leader</span>
+                        <span class="metric-chip">Meta vocabulary</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Valorant</div>
+                    <div class="game-reason">
+                        Modern FPS terminology, agent abilities vocabulary, and competitive gaming language.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">28M+ monthly</span>
+                        <span class="metric-chip">Tactical FPS</span>
+                        <span class="metric-chip">Agent systems</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Genshin Impact</div>
+                    <div class="game-reason">
+                        Gacha mechanics vocabulary, elemental system terminology, and live-service game concepts.
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">$4B revenue</span>
+                        <span class="metric-chip">Gacha model</span>
+                        <span class="metric-chip">Elemental combat</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="data-driven">
+                <strong>Selection Rationale:</strong> These 6 games alone cover 80% of modern gaming vocabulary across RPG, FPS, MOBA, and gacha mechanics. Combined Wikipedia content: ~45MB of high-density gaming terminology.
+            </div>
+        </div>
+
+        <!-- Phase-Adapted Scoring -->
+        <div class="section">
+            <h2>⚖️ Phase-Adaptive Quality Scoring</h2>
+            <p style="margin-bottom: 25px;">Our scoring system adapts weights based on collection phase objectives.</p>
+            
+            <div class="scoring-comparison">
+                <div class="scoring-card">
+                    <div class="scoring-title">Phase 1A - Modern AAA</div>
+                    <div class="weight-item">
+                        <span class="weight-name">Gaming Density</span>
+                        <span class="weight-value">35%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Content Depth</span>
+                        <span class="weight-value">25%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Freshness</span>
+                        <span class="weight-value">20%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Structure</span>
+                        <span class="weight-value">15%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Uniqueness</span>
+                        <span class="weight-value">5%</span>
+                    </div>
+                    <div class="justification">
+                        <strong>Focus:</strong> Maximize modern gaming vocabulary and current terminology. Freshness weighted higher for recent releases.
+                    </div>
+                </div>
+                
+                <div class="scoring-card">
+                    <div class="scoring-title">Phase 1B - Concepts & Mechanics</div>
+                    <div class="weight-item">
+                        <span class="weight-name">Content Depth</span>
+                        <span class="weight-value">40%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Gaming Density</span>
+                        <span class="weight-value">30%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Structure</span>
+                        <span class="weight-value">20%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Uniqueness</span>
+                        <span class="weight-value">10%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Freshness</span>
+                        <span class="weight-value">0%</span>
+                    </div>
+                    <div class="justification">
+                        <strong>Focus:</strong> Theoretical depth over recency. Game design concepts are timeless, so freshness is irrelevant.
+                    </div>
+                </div>
+                
+                <div class="scoring-card">
+                    <div class="scoring-title">Phase 1C - Historical Context</div>
+                    <div class="weight-item">
+                        <span class="weight-name">Uniqueness</span>
+                        <span class="weight-value">35%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Content Depth</span>
+                        <span class="weight-value">30%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Gaming Density</span>
+                        <span class="weight-value">20%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Structure</span>
+                        <span class="weight-value">15%</span>
+                    </div>
+                    <div class="weight-item">
+                        <span class="weight-name">Freshness</span>
+                        <span class="weight-value">0%</span>
+                    </div>
+                    <div class="justification">
+                        <strong>Focus:</strong> Historical uniqueness and comprehensive coverage. Avoid redundant franchise entries.
+                    </div>
+                </div>
+            </div>
+
+            <div class="recommendation">
+                <div class="recommendation-title">💡 Adaptive Scoring Recommendation</div>
+                <p>Rather than uniform scoring, we should adjust weights per phase:</p>
+                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                    <li><span class="highlight">Phase 1A</span>: Prioritize freshness and gaming density for modern vocabulary capture</li>
+                    <li><span class="highlight">Phase 1B</span>: Emphasize content depth for comprehensive concept explanation</li>
+                    <li><span class="highlight">Phase 1C</span>: Focus on uniqueness to avoid historical redundancy</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Franchise Analysis -->
+        <div class="section">
+            <h2>🏆 Strategic Franchise Selection</h2>
+            
+            <table class="priority-table">
+                <thead>
+                    <tr>
+                        <th>Franchise</th>
+                        <th>Vocabulary Impact</th>
+                        <th>Cultural Influence</th>
+                        <th>Technical Innovation</th>
+                        <th>Priority</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>The Legend of Zelda</strong></td>
+                        <td>Adventure mechanics</td>
+                        <td>35+ year legacy</td>
+                        <td>Lock-on, Z-targeting</td>
+                        <td><span class="priority-badge priority-critical">Critical</span></td>
+                        <td>Defines action-adventure genre vocabulary</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Dark Souls Series</strong></td>
+                        <td>"Souls-like" genre</td>
+                        <td>Difficulty discourse</td>
+                        <td>Stamina-based combat</td>
+                        <td><span class="priority-badge priority-critical">Critical</span></td>
+                        <td>Created entire genre and terminology</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Call of Duty</strong></td>
+                        <td>FPS mechanics</td>
+                        <td>Esports foundation</td>
+                        <td>Killstreaks, prestiges</td>
+                        <td><span class="priority-badge priority-high">High</span></td>
+                        <td>Most comprehensive FPS vocabulary</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Final Fantasy</strong></td>
+                        <td>JRPG systems</td>
+                        <td>Narrative innovation</td>
+                        <td>ATB, Materia systems</td>
+                        <td><span class="priority-badge priority-high">High</span></td>
+                        <td>Established JRPG conventions and terminology</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Grand Theft Auto</strong></td>
+                        <td>Open-world terms</td>
+                        <td>Controversy discourse</td>
+                        <td>Sandbox design</td>
+                        <td><span class="priority-badge priority-medium">Medium</span></td>
+                        <td>Open-world design principles and freedom concepts</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Phase Timeline -->
+        <div class="section">
+            <h2>⏱️ Optimized Collection Timeline</h2>
+            
+            <div class="timeline-phases">
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <div class="phase-number">1A</div>
+                        <div class="phase-title">Modern Vocabulary Core</div>
+                    </div>
+                    <p><strong>Target:</strong> 220MB of current gaming language</p>
+                    <p><strong>Focus:</strong> 2020-2024 releases, esports titles, live-service games</p>
+                    <p><strong>Quality threshold:</strong> 0.80+ with freshness priority</p>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <div class="phase-number">1B</div>
+                        <div class="phase-title">Conceptual Foundation</div>
+                    </div>
+                    <p><strong>Target:</strong> 200MB of game design theory</p>
+                    <p><strong>Focus:</strong> Mechanics, genres, design principles</p>
+                    <p><strong>Quality threshold:</strong> 0.75+ with depth priority</p>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <div class="phase-number">1C</div>
+                        <div class="phase-title">Historical Context</div>
+                    </div>
+                    <p><strong>Target:</strong> 180MB of gaming history</p>
+                    <p><strong>Focus:</strong> Revolutionary titles, franchise origins</p>
+                    <p><strong>Quality threshold:</strong> 0.70+ with uniqueness priority</p>
+                </div>
+                
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <div class="phase-number">1D</div>
+                        <div class="phase-title">Industry Ecosystem</div>
+                    </div>
+                    <p><strong>Target:</strong> 150MB of industry context</p>
+                    <p><strong>Focus:</strong> Studios, platforms, technologies</p>
+                    <p><strong>Quality threshold:</strong> 0.65+ balanced scoring</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quality Scoring Deep Dive -->
+        <div class="section">
+            <h2>🔬 Enhanced Quality Scoring Analysis</h2>
+            
+            <div class="tier-section tier-critical">
+                <h3>Gaming Density Optimization</h3>
+                <p>Our multi-tier vocabulary scoring provides more nuanced quality assessment:</p>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <span class="impact-number">4x</span>
+                        <span class="impact-label">Weight for complex phrases</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">3x</span>
+                        <span class="impact-label">Weight for gameplay mechanics</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">2x</span>
+                        <span class="impact-label">Weight for technical/esports terms</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">50+</span>
+                        <span class="impact-label">High-value phrase patterns</span>
+                    </div>
+                </div>
+                <div class="justification">
+                    <strong>Example:</strong> "frame data analysis" (4x weight) vs "game" (1x weight). This ensures articles discussing complex mechanics score significantly higher than basic game descriptions.
+                </div>
+            </div>
+
+            <div class="tier-section tier-high">
+                <h3>Content Depth Metrics</h3>
+                <p>New content depth scoring captures educational value beyond simple term frequency:</p>
+                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                    <li><span class="highlight">Section Analysis:</span> Gameplay, Development, Reception sections get bonus scoring</li>
+                    <li><span class="highlight">Depth Indicators:</span> Examples, comparisons, and explanations boost scores</li>
+                    <li><span class="highlight">Paragraph Quality:</span> Optimal 50-200 word paragraphs indicate structured content</li>
+                    <li><span class="highlight">Explanation Ratio:</span> "Because", "however", "therefore" indicate analytical depth</li>
+                </ul>
+            </div>
+
+            <div class="tier-section tier-medium">
+                <h3>Phase-Specific Adaptations</h3>
+                <div class="scoring-comparison">
+                    <div class="scoring-card">
+                        <div class="scoring-title">Why Adaptive Scoring?</div>
+                        <div class="data-driven">
+                            <strong>Current Issue:</strong> Using identical weights across all phases leads to suboptimal selection. A 2015 game design article with deep theoretical content might score poorly on "freshness" despite being perfectly relevant for Phase 1B.
+                        </div>
+                        <div class="data-driven">
+                            <strong>Solution:</strong> Weight adjustment per phase ensures we capture the best content for each collection goal rather than applying a one-size-fits-all approach.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vocabulary Coverage Strategy -->
+        <div class="section">
+            <h2>📚 Strategic Vocabulary Coverage</h2>
+            
+            <div class="game-showcase">
+                <div class="game-card">
+                    <div class="game-title">Battle Royale Genre</div>
+                    <div class="game-reason">
+                        <strong>Core Games:</strong> PUBG, Fortnite, Apex Legends<br>
+                        <strong>Vocabulary:</strong> "hot drop", "third-party", "circle", "zone management", "heal-off"
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">Genre-defining</span>
+                        <span class="metric-chip">200M+ players</span>
+                        <span class="metric-chip">Streaming vocabulary</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Roguelike Mechanics</div>
+                    <div class="game-reason">
+                        <strong>Core Games:</strong> Hades, Dead Cells, Risk of Rain 2<br>
+                        <strong>Vocabulary:</strong> "meta-progression", "run", "permadeath", "procedural generation"
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">Indie innovation</span>
+                        <span class="metric-chip">Design principles</span>
+                        <span class="metric-chip">Replayability</span>
+                    </div>
+                </div>
+                
+                <div class="game-card">
+                    <div class="game-title">Live Service Model</div>
+                    <div class="game-reason">
+                        <strong>Core Games:</strong> Destiny 2, Warframe, Genshin Impact<br>
+                        <strong>Vocabulary:</strong> "seasonal content", "battle pass", "FOMO", "time-gating"
+                    </div>
+                    <div class="game-metrics">
+                        <span class="metric-chip">Business model</span>
+                        <span class="metric-chip">Player retention</span>
+                        <span class="metric-chip">Modern monetization</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Innovation Priority -->
+        <div class="section">
+            <h2>⚡ Technical Innovation Coverage</h2>
+            
+            <table class="priority-table">
+                <thead>
+                    <tr>
+                        <th>Technology/Innovation</th>
+                        <th>Key Games</th>
+                        <th>Vocabulary Impact</th>
+                        <th>Technical Terms</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Ray Tracing</strong></td>
+                        <td>Cyberpunk 2077, Control</td>
+                        <td>High</td>
+                        <td>RTX, reflections, global illumination</td>
+                        <td><span class="priority-badge priority-critical">Critical</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>DLSS/FSR</strong></td>
+                        <td>Modern AAA titles</td>
+                        <td>Medium</td>
+                        <td>Upscaling, AI-enhanced, temporal</td>
+                        <td><span class="priority-badge priority-high">High</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Procedural Generation</strong></td>
+                        <td>No Man's Sky, Minecraft</td>
+                        <td>High</td>
+                        <td>Algorithms, seeds, infinite worlds</td>
+                        <td><span class="priority-badge priority-critical">Critical</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Physics Engines</strong></td>
+                        <td>Half-Life 2, Kerbal Space Program</td>
+                        <td>Medium</td>
+                        <td>Havok, collision detection, ragdoll</td>
+                        <td><span class="priority-badge priority-medium">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AI/Machine Learning</strong></td>
+                        <td>F.E.A.R., Left 4 Dead 2</td>
+                        <td>Growing</td>
+                        <td>Pathfinding, behavior trees, emergent</td>
+                        <td><span class="priority-badge priority-high">High</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Implementation Recommendations -->
+        <div class="section">
+            <h2>🎯 Implementation Strategy</h2>
+            
+            <div class="recommendation">
+                <div class="recommendation-title">🔥 Critical Recommendations</div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #00ff94; margin-bottom: 10px;">Phase-Adaptive Scoring</h4>
+                        <p>Implement different weight configurations per collection phase. This will increase relevant content capture by an estimated 25-30%.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #00ff94; margin-bottom: 10px;">Vocabulary Density Optimization</h4>
+                        <p>Use our 4-tier weighting system (1x basic, 2x technical, 3x mechanics, 4x complex phrases) for more nuanced quality assessment.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #00ff94; margin-bottom: 10px;">Genre-Specific Targets</h4>
+                        <p>Ensure minimum coverage quotas: 15% FPS, 15% RPG, 12% Strategy, 10% Fighting, 8% Racing, 40% other genres.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #00ff94; margin-bottom: 10px;">Quality Gate Implementation</h4>
+                        <p>Set minimum thresholds: Phase 1A (0.80), Phase 1B (0.75), Phase 1C (0.70), Phase 1D (0.65).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tier-section tier-critical">
+                <h3>Expected Outcomes</h3>
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <span class="impact-number">95%</span>
+                        <span class="impact-label">Modern gaming vocabulary coverage</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">0.78</span>
+                        <span class="impact-label">Average quality score across dataset</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">25+</span>
+                        <span class="impact-label">Distinct gaming genres represented</span>
+                    </div>
+                    <div class="impact-card">
+                        <span class="impact-number">750MB</span>
+                        <span class="impact-label">Optimized total dataset size</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Success Metrics -->
+        <div class="section">
+            <h2>📊 Success Validation Framework</h2>
+            
+            <div class="tier-section tier-medium">
+                <h3>Quantitative Metrics</h3>
+                <ul style="margin: 15px 0 0 20px; line-height: 1.8;">
+                    <li><span class="highlight">Vocabulary Diversity:</span> Minimum 5,000 unique gaming terms across dataset</li>
+                    <li><span class="highlight">Genre Distribution:</span> No single genre exceeding 25% of total content</li>
+                    <li><span class="highlight">Temporal Balance:</span> 40% modern (2020+), 35% established (2010-2019), 25% classic (pre-2010)</li>
+                    <li><span class="highlight">Quality Consistency:</span> 90% of articles scoring above phase-specific minimum thresholds</li>
+                    <li><span class="highlight">Technical Coverage:</span> All major game engines, platforms, and innovations represented</li>
+                </ul>
+            </div>
+
+            <div class="data-driven">
+                <strong>Validation Process:</strong> Run vocabulary coverage analysis after each phase to ensure we're meeting diversity targets. Adjust subsequent phase selections based on gaps identified in coverage analysis.
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

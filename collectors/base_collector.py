@@ -8,52 +8,79 @@ import hashlib
 import json
 from abc import ABC, abstractmethod
 from datetime import datetime
-from typing import Any, Dict, List, Optional, AsyncIterator
+from typing import Any, Dict, List, Optional, AsyncIterator, Union
 from pathlib import Path
+from dataclasses import dataclass, field
 
 import aiohttp
-import pandas as pd
 from loguru import logger
 from tenacity import retry, stop_after_attempt, wait_exponential
-from ratelimit import limits, sleep_and_retry
 
-from schemas import Document, DocumentMetadata, QualityScores
+
+@dataclass
+class CollectorConfig:
+    """Base configuration for collectors."""
+    rate_limit: int = 10  # calls per period
+    rate_period: int = 60  # seconds
+    min_content_length: int = 100
+    checkpoint_enabled: bool = True
+    checkpoint_interval: int = 100  # documents
+    
+
+class ValidationError(Exception):
+    """Raised when document validation fails."""
+    pass
 
 
 class RateLimiter:
     """Token bucket rate limiter for API calls."""
     
-    def __init__(self, calls: int = 100, period: int = 60):
+    def __init__(self, calls: int = 10, period: int = 60):
         self.calls = calls
         self.period = period
         self.semaphore = asyncio.Semaphore(calls)
-        self.reset_time = asyncio.get_event_loop().time() + period
+        self.reset_time = None
+        self.lock = asyncio.Lock()
         
     async def acquire(self):
-        async with self.semaphore:
+        """Acquire permission to make a call."""
+        async with self.lock:
             current_time = asyncio.get_event_loop().time()
-            if current_time >= self.reset_time:
+            
+            if self.reset_time is None:
+                self.reset_time = current_time + self.period
+            elif current_time >= self.reset_time:
+                # Reset the semaphore
                 self.reset_time = current_time + self.period
                 self.semaphore = asyncio.Semaphore(self.calls)
-            await asyncio.sleep(0.1)  # Small delay between calls
+        
+        async with self.semaphore:
+            # Small delay between calls to be respectful
+            await asyncio.sleep(0.1)
 
 
 class BaseCollector(ABC):
     """Abstract base class for all collectors."""
     
-    def __init__(self, config: Dict[str, Any]):
+    def __init__(self, config: CollectorConfig):
         self.config = config
-        self.session: Optional[aiohttp.ClientSession] = None
         self.rate_limiter = RateLimiter(
-            calls=config.get('rate_limit', 100),
-            period=config.get('rate_period', 60)
+            calls=config.rate_limit,
+            period=config.rate_period
         )
-        self.collected_count = 0
-        self.error_count = 0
+        self.stats = {
+            'collected_count': 0,
+            'error_count': 0,
+            'skipped_count': 0,
+            'start_time': datetime.utcnow()
+        }
         
         # Setup logging
+        log_dir = Path("logs")
+        log_dir.mkdir(exist_ok=True)
+        
         logger.add(
-            f"logs/{self.__class__.__name__}.log",
+            log_dir / f"{self.__class__.__name__}.log",
             rotation="1 day",
             retention="7 days",
             level="INFO"
@@ -61,142 +88,196 @@ class BaseCollector(ABC):
         
     async def __aenter__(self):
         """Async context manager entry."""
-        timeout = aiohttp.ClientTimeout(total=30)
-        self.session = aiohttp.ClientSession(
-            headers=self.config.get('headers', {}),
-            timeout=timeout
-        )
         logger.info(f"Started {self.__class__.__name__}")
         return self
         
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         """Async context manager exit."""
-        if self.session:
-            await self.session.close()
+        duration = datetime.utcnow() - self.stats['start_time']
         logger.info(
             f"Stopped {self.__class__.__name__}. "
-            f"Collected: {self.collected_count}, Errors: {self.error_count}"
+            f"Duration: {duration}, "
+            f"Collected: {self.stats['collected_count']}, "
+            f"Errors: {self.stats['error_count']}, "
+            f"Skipped: {self.stats['skipped_count']}"
         )
     
     @abstractmethod
     async def extract(self) -> AsyncIterator[Dict[str, Any]]:
-        """Extract raw data from source. Must be implemented by subclasses."""
+        """
+        Extract documents from source.
+        
+        Yields:
+            Dict containing document data
+        """
         pass
     
-    @abstractmethod
-    def parse(self, raw_data: Any) -> Optional[Document]:
-        """Parse raw data into Document format. Must be implemented by subclasses."""
-        pass
-    
-    def validate(self, document: Document) -> bool:
-        """Validate document meets quality standards."""
-        # Basic validation rules
-        if not document.content.text or len(document.content.text) < 100:
-            return False
+    def validate_document(self, document: Dict[str, Any]) -> bool:
+        """
+        Validate document meets quality standards.
+        
+        Args:
+            document: Document dict to validate
             
-        if document.content.word_count < 50:
-            return False
+        Returns:
+            True if valid, False otherwise
             
-        if not document.metadata.game.title:
+        Raises:
+            ValidationError: If document has critical issues
+        """
+        # Check required fields
+        required_fields = ['document_id', 'source', 'content']
+        for field in required_fields:
+            if field not in document:
+                raise ValidationError(f"Missing required field: {field}")
+        
+        # Check content
+        content = document.get('content', {})
+        text = content.get('text_clean') or content.get('text', '')
+        
+        if not text:
+            raise ValidationError("No text content found")
+            
+        if len(text) < self.config.min_content_length:
             return False
             
         return True
     
-    def generate_document_id(self, content: str) -> str:
-        """Generate unique document ID from content."""
-        return hashlib.sha256(content.encode()).hexdigest()
+    def generate_document_id(self, source: str, unique_id: Union[str, int]) -> str:
+        """
+        Generate unique document ID.
+        
+        Args:
+            source: Source platform (wikipedia, steam, etc.)
+            unique_id: Source-specific unique identifier
+            
+        Returns:
+            Unique document ID
+        """
+        timestamp = int(datetime.utcnow().timestamp())
+        return f"{source}_{unique_id}_{timestamp}"
+    
+    async def save_checkpoint(self, state: Dict[str, Any]):
+        """Save progress checkpoint."""
+        if not self.config.checkpoint_enabled:
+            return
+            
+        checkpoint_dir = Path("checkpoints")
+        checkpoint_dir.mkdir(exist_ok=True)
+        
+        checkpoint_file = checkpoint_dir / f"{self.__class__.__name__}_checkpoint.json"
+        
+        checkpoint_data = {
+            'timestamp': datetime.utcnow().isoformat(),
+            'stats': self.stats,
+            'state': state
+        }
+        
+        # Save atomically
+        temp_file = checkpoint_file.with_suffix('.tmp')
+        with open(temp_file, 'w') as f:
+            json.dump(checkpoint_data, f, indent=2)
+        
+        temp_file.replace(checkpoint_file)
+        logger.debug(f"Saved checkpoint: {self.stats['collected_count']} documents")
+    
+    async def load_checkpoint(self) -> Optional[Dict[str, Any]]:
+        """Load progress checkpoint if exists."""
+        if not self.config.checkpoint_enabled:
+            return None
+            
+        checkpoint_file = Path("checkpoints") / f"{self.__class__.__name__}_checkpoint.json"
+        
+        if checkpoint_file.exists():
+            try:
+                with open(checkpoint_file, 'r') as f:
+                    checkpoint = json.load(f)
+                
+                # Restore stats
+                self.stats.update(checkpoint.get('stats', {}))
+                self.stats['start_time'] = datetime.fromisoformat(
+                    self.stats['start_time']
+                ) if isinstance(self.stats['start_time'], str) else self.stats['start_time']
+                
+                logger.info(
+                    f"Loaded checkpoint from {checkpoint['timestamp']}, "
+                    f"resuming from {self.stats['collected_count']} documents"
+                )
+                
+                return checkpoint.get('state')
+                
+            except Exception as e:
+                logger.error(f"Failed to load checkpoint: {e}")
+                return None
+                
+        return None
     
     @retry(
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=1, min=4, max=10)
     )
-    async def fetch_with_retry(self, url: str, **kwargs) -> Dict[str, Any]:
-        """Fetch URL with exponential backoff retry."""
+    async def fetch_with_retry(
+        self, 
+        session: aiohttp.ClientSession,
+        url: str, 
+        **kwargs
+    ) -> Union[Dict, str]:
+        """
+        Fetch URL with exponential backoff retry.
+        
+        Args:
+            session: aiohttp session
+            url: URL to fetch
+            **kwargs: Additional arguments for session.get()
+            
+        Returns:
+            Response data (JSON dict or text)
+        """
         await self.rate_limiter.acquire()
         
         try:
-            async with self.session.get(url, **kwargs) as response:
+            async with session.get(url, **kwargs) as response:
                 response.raise_for_status()
-                return await response.json()
+                
+                content_type = response.headers.get('content-type', '')
+                if 'application/json' in content_type:
+                    return await response.json()
+                else:
+                    return await response.text()
+                    
         except Exception as e:
             logger.error(f"Error fetching {url}: {e}")
-            self.error_count += 1
+            self.stats['error_count'] += 1
             raise
     
-    async def process_batch(
-        self, 
-        items: List[Any], 
-        batch_size: int = 10
-    ) -> List[Document]:
-        """Process items in parallel batches."""
-        results = []
+    def normalize_text(self, text: str) -> str:
+        """
+        Basic text normalization.
         
-        for i in range(0, len(items), batch_size):
-            batch = items[i:i + batch_size]
-            tasks = [self.process_item(item) for item in batch]
+        Args:
+            text: Raw text
             
-            batch_results = await asyncio.gather(*tasks, return_exceptions=True)
-            
-            for result in batch_results:
-                if isinstance(result, Document):
-                    results.append(result)
-                    self.collected_count += 1
-                elif isinstance(result, Exception):
-                    logger.error(f"Error processing item: {result}")
-                    self.error_count += 1
-                    
-        return results
-    
-    async def process_item(self, item: Any) -> Optional[Document]:
-        """Process a single item into a Document."""
-        try:
-            # Extract raw data
-            raw_data = await self.extract_item(item)
-            
-            # Parse into Document
-            document = self.parse(raw_data)
-            
-            if document and self.validate(document):
-                return document
-            
-            return None
-            
-        except Exception as e:
-            logger.error(f"Error processing item {item}: {e}")
-            raise
-    
-    @abstractmethod
-    async def extract_item(self, item: Any) -> Any:
-        """Extract data for a single item. Must be implemented by subclasses."""
-        pass
-    
-    def save_checkpoint(self, state: Dict[str, Any], checkpoint_file: str):
-        """Save progress checkpoint."""
-        checkpoint_path = Path(f"checkpoints/{checkpoint_file}")
-        checkpoint_path.parent.mkdir(exist_ok=True)
+        Returns:
+            Normalized text
+        """
+        # Remove multiple spaces
+        text = ' '.join(text.split())
         
-        with open(checkpoint_path, 'w') as f:
-            json.dump({
-                'timestamp': datetime.now().isoformat(),
-                'collected_count': self.collected_count,
-                'error_count': self.error_count,
-                'state': state
-            }, f, indent=2)
-            
-        logger.info(f"Saved checkpoint to {checkpoint_path}")
-    
-    def load_checkpoint(self, checkpoint_file: str) -> Optional[Dict[str, Any]]:
-        """Load progress checkpoint if exists."""
-        checkpoint_path = Path(f"checkpoints/{checkpoint_file}")
+        # Remove multiple newlines
+        text = '\n'.join(line for line in text.split('\n') if line.strip())
         
-        if checkpoint_path.exists():
-            with open(checkpoint_path, 'r') as f:
-                checkpoint = json.load(f)
-                logger.info(f"Loaded checkpoint from {checkpoint['timestamp']}")
-                return checkpoint.get('state')
-                
-        return None
+        return text.strip()
     
-    def chunk_list(self, lst: List[Any], chunk_size: int) -> List[List[Any]]:
-        """Split list into chunks."""
-        return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
+    def estimate_tokens(self, text: str) -> int:
+        """
+        Estimate number of tokens in text.
+        
+        Args:
+            text: Input text
+            
+        Returns:
+            Estimated token count
+        """
+        # Simple estimation: ~0.75 words per token for English
+        word_count = len(text.split())
+        return int(word_count * 0.75)

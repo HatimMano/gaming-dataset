@@ -9,12 +9,31 @@ from pathlib import Path
 from datetime import datetime
 from loguru import logger
 import json
-
-from collectors.wikipedia_collector import WikipediaCollector
+from typing import Dict, List
+from collectors.wikipedia_collector import WikipediaCollector, WikipediaConfig
 from processors.quality_scorer import EnhancedQualityScorer
 from storage.parquet_manager import ParquetManager
 
+class YearFilter:
+    def __init__(self, min_year: int, max_year: int):
+        self.min_year = min_year
+        self.max_year = max_year
+    
+    def apply(self, doc: Dict) -> bool:
+        game_info = doc.get('metadata', {}).get('game_info', {})
+        release_year = game_info.get('release_year')
+        if release_year:
+            return self.min_year <= release_year <= self.max_year
+        return True  # Si pas d'année, on laisse passer
 
+class ContentRequirementFilter:
+    def __init__(self, required_terms: List[str]):
+        self.required_terms = required_terms
+    
+    def apply(self, doc: Dict) -> bool:
+        text = doc.get('content', {}).get('text_clean', '').lower()
+        return all(term in text for term in self.required_terms)
+    
 class OptimizedCollectionStrategy:
     """Stratégie de collecte intelligente avec priorisation."""
     
@@ -131,15 +150,26 @@ class OptimizedCollectionStrategy:
             'rejection_reasons': {}
         }
         
-        # Créer le collector avec configuration
-        collector = WikipediaCollector(start_year=phase_config.get('year_filter', (2000, 2024))[0])
+        # 1. D'abord créer la configuration du collector
+        config = WikipediaConfig(
+            language='en',
+            categories_per_batch=10,
+            pages_per_category=100,
+            min_article_length=1000,
+            extract_infobox=True
+        )
         
-        # Override categories
-        collector.CATEGORIES = phase_config['categories']
+        # 2. Créer le collector
+        collector = WikipediaCollector(config)
+        
+        # 3. Override les catégories pour cette phase
+        if 'categories' in phase_config:
+            collector.PRIORITY_CATEGORIES = phase_config['categories']
         
         collected_size_mb = 0
         batch = []
         
+        # 4. Collecter les documents
         async with collector:
             async for doc_dict in collector.extract():
                 # Vérifier le budget
@@ -148,7 +178,9 @@ class OptimizedCollectionStrategy:
                     break
                 
                 try:
-                    # Calculer le score avec le nouveau scorer
+                    # 5. MAINTENANT appliquer les filtres sur le document récupéré
+                    
+                    # Calculer le score de qualité
                     score, components = self.scorer.score_document(doc_dict)
                     phase_stats['quality_scores'].append(score)
                     
@@ -165,17 +197,9 @@ class OptimizedCollectionStrategy:
                         reason = f"quality_below_{phase_config['min_quality']}"
                         phase_stats['rejection_reasons'][reason] = \
                             phase_stats['rejection_reasons'].get(reason, 0) + 1
-                        
-                        # Log détaillé pour les premiers rejets
-                        if phase_stats['articles_rejected'] <= 5:
-                            logger.debug(
-                                f"Rejected: {doc_dict['content']['title']}\n"
-                                f"  Score: {score:.3f}\n"
-                                f"  Components: {components}"
-                            )
                         continue
                     
-                    # Document accepté
+                    # Document accepté !
                     doc_dict['quality'] = {
                         'overall': score,
                         **components
@@ -206,26 +230,7 @@ class OptimizedCollectionStrategy:
                     phase_stats['articles_rejected'] += 1
                     phase_stats['rejection_reasons']['error'] = \
                         phase_stats['rejection_reasons'].get('error', 0) + 1
-        
-        # Sauvegarder le dernier batch
-        if batch:
-            size_mb = await self._save_batch(batch, phase_config['name'])
-            phase_stats['total_size_mb'] += size_mb
-        
-        # Finaliser les stats de phase
-        phase_stats['ended_at'] = datetime.now()
-        phase_stats['duration'] = phase_stats['ended_at'] - phase_stats['started_at']
-        phase_stats['avg_quality'] = (
-            sum(phase_stats['quality_scores']) / len(phase_stats['quality_scores'])
-            if phase_stats['quality_scores'] else 0
-        )
-        
-        self.stats['phase_stats'][phase_config['name']] = phase_stats
-        self.stats['total_size_mb'] += phase_stats['total_size_mb']
-        
-        # Rapport de phase
-        self._print_phase_report(phase_config['name'], phase_stats)
-    
+                    
     def _passes_phase_filters(self, doc_dict: dict, phase_config: dict) -> bool:
         """Vérifie si un document passe les filtres spécifiques à la phase."""
         content = doc_dict.get('content', {})
@@ -322,66 +327,115 @@ class OptimizedCollectionStrategy:
             print(f"   - Moyen (0.6-0.7): {sum(1 for s in scores if 0.6 <= s < 0.7)}")
             print(f"   - Faible (<0.6): {sum(1 for s in scores if s < 0.6)}")
     
-    def _generate_final_report(self):
-        """Génère le rapport final de collecte."""
-        print(f"\n{'='*80}")
-        print(f"🎮 RAPPORT FINAL - PHASE 1 WIKIPEDIA")
-        print(f"{'='*80}")
-        
-        # Stats globales
-        total_collected = sum(
-            stats['articles_collected'] 
-            for stats in self.stats['phase_stats'].values()
-        )
-        total_rejected = sum(
-            stats['articles_rejected'] 
-            for stats in self.stats['phase_stats'].values()
-        )
-        
-        print(f"\n📊 Statistiques globales:")
-        print(f"   - Articles collectés: {total_collected}")
-        print(f"   - Articles rejetés: {total_rejected}")
-        print(f"   - Taux d'acceptation: {total_collected/(total_collected+total_rejected)*100:.1f}%")
-        print(f"   - Taille totale: {self.stats['total_size_mb']:.2f}MB")
-        print(f"   - Vocabulaire unique: {len(self.stats['vocabulary_coverage'])} termes")
-        
-        # Qualité moyenne par phase
-        print(f"\n📈 Qualité moyenne par phase:")
-        for phase_name, stats in self.stats['phase_stats'].items():
-            print(f"   - {phase_name}: {stats['avg_quality']:.3f}")
-        
-        # Top rejection reasons
-        all_rejections = {}
-        for stats in self.stats['phase_stats'].values():
-            for reason, count in stats['rejection_reasons'].items():
-                all_rejections[reason] = all_rejections.get(reason, 0) + count
-        
-        if all_rejections:
-            print(f"\n🚫 Top 5 raisons de rejet globales:")
-            for reason, count in sorted(all_rejections.items(), 
-                                       key=lambda x: x[1], reverse=True)[:5]:
-                print(f"   - {reason}: {count}")
-        
-        # Recommandations
-        print(f"\n💡 Recommandations:")
-        avg_quality = sum(
-            stats['avg_quality'] * stats['articles_collected']
-            for stats in self.stats['phase_stats'].values()
-        ) / total_collected
-        
-        if avg_quality >= 0.75:
-            print("   ✅ Excellente qualité moyenne! Dataset prêt pour l'entraînement.")
-        elif avg_quality >= 0.65:
-            print("   ⚠️  Qualité correcte. Considérer un filtrage additionnel.")
-        else:
-            print("   ❌ Qualité insuffisante. Revoir les critères de sélection.")
-        
-        if self.stats['total_size_mb'] < 500:
-            print(f"   ⚠️  Taille en dessous de l'objectif. Continuer la collecte.")
-        
-        # Sauvegarder le rapport
-        self._save_report_to_file()
     
+    def _generate_final_report(self):
+        """Génère un rapport final de la collecte."""
+        total_collected = sum(p['articles_collected'] for p in self.stats['phases'])
+        total_rejected = sum(p['articles_rejected'] for p in self.stats['phases'])
+        total_size = sum(p['total_size_mb'] for p in self.stats['phases'])
+        
+        # Éviter la division par zéro
+        total_articles = total_collected + total_rejected
+        acceptance_rate = (total_collected / total_articles * 100) if total_articles > 0 else 0.0
+        
+        print("\n" + "="*60)
+        print("FINAL COLLECTION REPORT")
+        print("="*60)
+        print(f"Duration: {self.stats['duration']}")
+        print(f"\nArticles Statistics:")
+        print(f"   - Total collected: {total_collected:,}")
+        print(f"   - Total rejected: {total_rejected:,}")
+        print(f"   - Acceptance rate: {acceptance_rate:.1f}%")
+        print(f"   - Total size: {total_size:.2f} MB")
+        
+        if total_collected > 0:
+            print(f"   - Average size: {total_size/total_collected:.3f} MB/article")
+        
+        # Distribution de qualité seulement si on a des scores
+        all_scores = []
+        for phase in self.stats['phases']:
+            all_scores.extend(phase.get('quality_scores', []))
+        
+        if all_scores:
+            import numpy as np
+            scores_array = np.array(all_scores)
+            print(f"\nQuality Distribution:")
+            print(f"   - Mean: {scores_array.mean():.3f}")
+            print(f"   - Std: {scores_array.std():.3f}")
+            print(f"   - Min: {scores_array.min():.3f}")
+            print(f"   - Max: {scores_array.max():.3f}")
+            
+            # Percentiles
+            percentiles = [25, 50, 75, 90, 95]
+            print(f"\n   Percentiles:")
+            for p in percentiles:
+                value = np.percentile(scores_array, p)
+                print(f"   - P{p}: {value:.3f}")
+        else:
+            print("\nNo quality scores available.")
+        
+        # Rejection reasons
+        print(f"\nRejection Reasons:")
+        all_reasons = {}
+        for phase in self.stats['phases']:
+            for reason, count in phase.get('rejection_reasons', {}).items():
+                all_reasons[reason] = all_reasons.get(reason, 0) + count
+        
+        if all_reasons:
+            # Trier par fréquence
+            sorted_reasons = sorted(all_reasons.items(), key=lambda x: x[1], reverse=True)
+            for reason, count in sorted_reasons:
+                percentage = (count / total_rejected * 100) if total_rejected > 0 else 0
+                print(f"   - {reason}: {count} ({percentage:.1f}%)")
+        else:
+            print("   - No rejections recorded")
+        
+        # Phase par phase
+        print(f"\nPhase Breakdown:")
+        for i, phase in enumerate(self.stats['phases']):
+            print(f"\n   Phase {i+1}: {phase.get('name', 'Unknown')}")
+            print(f"   - Duration: {phase.get('duration', 'N/A')}")
+            print(f"   - Collected: {phase['articles_collected']:,}")
+            print(f"   - Rejected: {phase['articles_rejected']:,}")
+            print(f"   - Size: {phase['total_size_mb']:.2f} MB")
+            
+            # Moyenne de qualité pour cette phase
+            if phase.get('quality_scores'):
+                avg_quality = sum(phase['quality_scores']) / len(phase['quality_scores'])
+                print(f"   - Avg quality: {avg_quality:.3f}")
+        
+        # Vocabulary coverage
+        if hasattr(self, 'vocabulary_tracker') and self.vocabulary_tracker:
+            unique_terms = len(self.vocabulary_tracker)
+            print(f"\nVocabulary Coverage:")
+            print(f"   - Unique gaming terms: {unique_terms:,}")
+            
+            # Top terms
+            if unique_terms > 0:
+                top_terms = sorted(
+                    self.vocabulary_tracker.items(), 
+                    key=lambda x: x[1], 
+                    reverse=True
+                )[:20]
+                print(f"   - Top 20 terms:")
+                for term, count in top_terms:
+                    print(f"      - {term}: {count:,}")
+        
+        # Recommendations
+        print(f"\nRecommendations:")
+        if acceptance_rate < 20:
+            print("   ⚠️  Very low acceptance rate - consider relaxing quality criteria")
+        if total_collected < 1000:
+            print("   ⚠️  Low collection count - consider increasing budget or reducing filters")
+        if total_size < 100:
+            print("   ⚠️  Small dataset size - may need more collection phases")
+    
+        # Success indicators
+        if acceptance_rate > 50 and total_collected > 5000:
+            print("   ✅ Excellent collection efficiency!")
+        if total_size > 500:
+            print("   ✅ Good dataset size achieved")
+
     def _save_report_to_file(self):
         """Sauvegarde le rapport dans un fichier JSON."""
         report_path = self.output_dir / f"collection_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
